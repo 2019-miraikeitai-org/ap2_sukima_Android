@@ -1,7 +1,9 @@
 package com.example.sukima_android
 
+import android.content.ClipData
 import android.os.Bundle
 import android.content.Intent
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
@@ -13,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_time_layout.*
 class time_layout : AppCompatActivity() {
 
     private val spinnerItems = arrayOf("60", "90", "120", "150", "180")
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +40,10 @@ class time_layout : AppCompatActivity() {
                                         view: View?, position: Int, id: Long) {
                 val spinnerParent = parent as Spinner
                 val item = spinnerParent.selectedItem as String
+                sendTime(item)
 
+             }
 
-            }
 
             //　アイテムが選択されなかった
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -46,9 +51,20 @@ class time_layout : AppCompatActivity() {
             }
         }
 
+    }
+
+
+
+    fun sendTime(item : String) {
         next_btn.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
+            intent.putExtra(EXTRA_MESSAGE, item)
             startActivity(intent)
+
         }
     }
+
+
+
+
 }

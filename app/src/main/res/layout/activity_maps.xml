@@ -17,7 +17,6 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
@@ -31,17 +30,19 @@
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="24dp" />
 
+
         <include
             android:id="@+id/include_1"
             layout="@layout/top_include"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="480dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.484" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -49,13 +50,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="855dp"
             android:contentDescription="TODO"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.496"
-            app:srcCompat="@drawable/sukimachi_under" />
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.496"
+            map:srcCompat="@drawable/sukimachi_under" />
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -67,10 +68,10 @@
             android:layout_marginBottom="230dp"
             android:background="@null"
             android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
             map:srcCompat="@drawable/search" />
 
         <TextView
@@ -87,7 +88,7 @@
             map:layout_constraintVertical_bias="0.05" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/sukimaTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -98,6 +99,20 @@
             map:layout_constraintStart_toStartOf="parent"
             map:layout_constraintTop_toBottomOf="@+id/textView"
             map:layout_constraintVertical_bias="0.016" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="min"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.047"
+            map:layout_constraintStart_toStartOf="@+id/sukimaTime"
+            map:layout_constraintTop_toBottomOf="@+id/textView"
+            map:layout_constraintVertical_bias="0.014" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

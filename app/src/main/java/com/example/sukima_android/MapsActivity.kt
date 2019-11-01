@@ -1,5 +1,6 @@
 package com.example.sukima_android
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.location.Location
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.widget.TextView
 import android.widget.Toast
 
 
@@ -53,6 +56,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         mapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
+        val intent: Intent = getIntent()
+        val message: String = intent.getStringExtra(EXTRA_MESSAGE)
+        val textView: TextView = findViewById(R.id.sukimaTime)
+        textView.setText(message)
 
 
     }
