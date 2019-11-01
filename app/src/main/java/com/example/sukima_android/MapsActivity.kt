@@ -165,14 +165,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val d : Int = distance.toInt()
 
             googleMap.run{
-                map.addMarker(
+                val marker = map.addMarker(
                     MarkerOptions()
                         .position(LatLngB)
                         .title("$d m")
                         .snippet("${d / 80}分")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                 )
-
+                map.setOnMarkerClickListener  {
+                    if (marker.isInfoWindowShown) {
+                        marker.hideInfoWindow()
+                    } else {
+                        marker.showInfoWindow()
+                    }
+                    true
+                }
             }
 
 
