@@ -159,7 +159,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             val LatLngA = LatLng(location.latitude, location.longitude)
             val LatLngB = LatLng(41.8417846, 140.7675603)
-            val LatLngC = LatLng(41.8162013296, 140.735571384)
+            //val LatLngC = LatLng(41.8162013296, 140.735571384)
             val distance  = LatLngA.distanceBetween(LatLngB)
 
             val d : Int = distance.toInt()
