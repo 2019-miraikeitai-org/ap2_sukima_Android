@@ -30,6 +30,7 @@ import android.widget.Toast
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
+
     override fun onMarkerClick(p0: Marker?) = false
 
 
@@ -102,14 +103,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
         map = googleMap
 
-        /*map.setOnMarkerClickListener (object : OnMarkerClickListener{
-             override fun onMarkerClick(marker: Marker): Boolean {
-                 return true
-             }
-         })*/
-
-
         setUpMap()
+
         map.isMyLocationEnabled = true //位置情報取得可能
 
         map.getUiSettings().setZoomControlsEnabled(true)
@@ -143,6 +138,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 map.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
             }
 
+
+            //現在位置とスポットまでの距離の計算
             fun LatLng.distanceBetween(toLatLang: LatLng): Float {
                 val results = FloatArray(1)
                 try {
@@ -157,13 +154,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 return results[0]
             }
 
+
             val LatLngA = LatLng(location.latitude, location.longitude)
+            //マーカーの設定
             val LatLngB = LatLng(41.8417846, 140.7675603)
             //val LatLngC = LatLng(41.8162013296, 140.735571384)
             val distance  = LatLngA.distanceBetween(LatLngB)
 
             val d : Int = distance.toInt()
+            Check(d)
 
+            //マーカーの情報
             googleMap.run{
                 val marker = map.addMarker(
                     MarkerOptions()
@@ -172,6 +173,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         .snippet("${d / 80}分")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                 )
+
+
+
+                //マーカーのクリック時の動作
                 map.setOnMarkerClickListener  {
                     if (marker.isInfoWindowShown) {
                         marker.hideInfoWindow()
@@ -182,19 +187,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 }
             }
 
-
-
-
-
         }
-
-
 
     }
 
+    fun Check(d :Int){
 
+        if (d<5){
+            val intent = Intent(this, CheckIn::class.java)
+            startActivity(intent)
 
-
+        }
+    }
 
 }
 
