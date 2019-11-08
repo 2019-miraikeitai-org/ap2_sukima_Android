@@ -2,12 +2,9 @@ package com.example.sukima_android
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -17,16 +14,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_maps.*
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.model.LatLng
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.widget.TextView
-import android.widget.Toast
 
+import com.google.maps.android.SphericalUtil.*
+import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.activity_time_layout.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
@@ -46,7 +41,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     }
 
 
-
     //fused locationのデフォルトであるやつ
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +56,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         val intent: Intent = getIntent()
         val message: String = intent.getStringExtra(EXTRA_MESSAGE)
         val textView: TextView = findViewById(R.id.sukimaTime)
-        textView.setText(message)
+        textView.text = message
 
 
     }
@@ -74,16 +68,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
     //位置情報の権限
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
     }
-
-
-
 
 
     /**
@@ -95,7 +92,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -130,75 +126,69 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         //fused locationの機能(位置情報取得)
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
 
-
-
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 map.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
+                currentLatLng(currentLatLng)
             }
 
+            val point_new = arrayOfNulls<LatLng>(3)
+            point_new[0] = LatLng(41.8417846, 140.7675603)
+            point_new[1] = LatLng(41.8415718222, 140.767425299)
+            point_new[2] = LatLng(41.8395136176, 140.76271534)
 
-            //現在位置とスポットまでの距離の計算
-            fun LatLng.distanceBetween(toLatLang: LatLng): Float {
-                val results = FloatArray(1)
-                try {
-                    Location.distanceBetween(
-                        this.latitude, this.longitude,
-                        toLatLang.latitude, toLatLang.longitude,
-                        results
-                    )
-                } catch (e: IllegalArgumentException) {
-                    return -1.0f
-                }
-                return results[0]
-            }
+            val distance:MutableList<Int> = mutableListOf()
+
+            point_new.forEachIndexed { i, point ->
+                val LatLngA = LatLng(location.latitude, location.longitude)
 
 
-            val LatLngA = LatLng(location.latitude, location.longitude)
-            //マーカーの設定
-            val LatLngB = LatLng(41.8417846, 140.7675603)
-            //val LatLngC = LatLng(41.8162013296, 140.735571384)
-            val distance  = LatLngA.distanceBetween(LatLngB)
+                distance.add(computeDistanceBetween(LatLngA, point).toInt())
 
-            val d : Int = distance.toInt()
-            Check(d)
-
-            //マーカーの情報
-            googleMap.run{
-                val marker = map.addMarker(
-                    MarkerOptions()
-                        .position(LatLngB)
-                        .title("$d m")
-                        .snippet("${d / 80}分")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
-                )
-
-
-
-                //マーカーのクリック時の動作
-                map.setOnMarkerClickListener  {
-                    if (marker.isInfoWindowShown) {
-                        marker.hideInfoWindow()
-                    } else {
-                        marker.showInfoWindow()
+                val marker: Marker =
+                    map.addMarker(point?.let {
+                        MarkerOptions()
+                            .position(it)
+                            .title("${distance[i]} m")
+                            .snippet("${distance[i]/ 80}分")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                     }
-                    true
-                }
-            }
 
+
+                    )
+                setOnMarkerClick(marker)
+                Check(distance[i])
+            }
         }
 
     }
 
-    fun Check(d :Int){
+    private var selectedMarker : Marker?=null
 
-        if (d<5){
+    private fun setOnMarkerClick(marker:Marker?):Boolean {
+        if (marker == selectedMarker) {
+            selectedMarker = null
+            return true
+        }
+        selectedMarker = marker
+        return false
+    }
+
+
+    fun currentLatLng(currentLatLng : LatLng) {
+        current_btn.setOnClickListener {
+            map.animateCamera(CameraUpdateFactory.newLatLng(currentLatLng))
+        }
+    }
+
+    private fun Check(distance: Int) {
+
+        if (distance < 5) {
             val intent = Intent(this, CheckIn::class.java)
             startActivity(intent)
-
         }
     }
-
 }
+
 
