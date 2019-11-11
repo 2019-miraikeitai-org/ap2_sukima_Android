@@ -1,7 +1,9 @@
 package com.example.sukima_android
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.AsyncTask
@@ -11,8 +13,8 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
@@ -43,6 +45,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    //現在地を更新していくやつ
+    private lateinit var locationCallback: LocationCallback
+    //プロパティと位置更新状態プロパティを宣言
+    private lateinit var locationRequest: LocationRequest
+    private var locationUpdateState = false
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
+        private const val REQUEST_CHECK_SETTINGS = 2
+    }
+
+
+
     //LatLang型の配列
     private val point_new = arrayOfNulls<LatLng>(3)
 
@@ -63,20 +79,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        //fused location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
+        //画面遷移の時に、time_layoutから受け取る引数
         val intent: Intent = getIntent()
         val message: String = intent.getStringExtra(EXTRA_MESSAGE)
         val textView: TextView = findViewById(R.id.sukimaTime)
         textView.text = message
 
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
 
-    }
+                lastLocation = p0.lastLocation
+                currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
+            }
+        }
 
-    //位置情報の権限
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        createLocationRequest()
+
     }
 
     //位置情報の権限
@@ -92,6 +115,80 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 LOCATION_PERMISSION_REQUEST_CODE
             )
             return
+        }
+    }
+
+    //場所の更新をリクエスト
+    private fun startLocationUpdates() {
+        //1
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE)
+            return
+        }
+        //2
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+    }
+
+    private fun createLocationRequest() {
+        //ユーザの場所の変更の処理を行う
+        locationRequest = LocationRequest()
+        // インターバル。アプリが更新を受信する頻度
+        locationRequest.interval = 10000
+        // アプリが更新を最速にできるレート
+        locationRequest.fastestInterval = 5000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        // 設定クライアントと場所の設定を確認するタスク
+        val client = LocationServices.getSettingsClient(this)
+        val task = client.checkLocationSettings(builder.build())
+
+        // タスク成功。位置情報要求を開始
+        task.addOnSuccessListener {
+            locationUpdateState = true
+            startLocationUpdates()
+        }
+        task.addOnFailureListener { e ->
+            // タスク失敗。ユーザの位置情報権限がオフになった場合である。ダイアログを表示させる。
+            if (e is ResolvableApiException) {
+                // タスク失敗
+                try {
+                    // ダイアログを表示
+                    e.startResolutionForResult(this@MapsActivity,
+                        REQUEST_CHECK_SETTINGS)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // エラーを無視する
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            if (resultCode == Activity.RESULT_OK) {
+                locationUpdateState = true
+                startLocationUpdates()
+            }
+        }
+    }
+
+    // onPause（）をオーバーライドして、ロケーション更新リクエストを停止します
+    override fun onPause() {
+        super.onPause()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    // onResume（）をオーバーライドして、ロケーション更新リクエストを再開します。
+    public override fun onResume() {
+        super.onResume()
+        if (!locationUpdateState) {
+            startLocationUpdates()
         }
     }
 
@@ -151,20 +248,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             //緯度経度を取得するまで待つ
             Thread.sleep(10000)
 
-/*
-            val point_new = arrayOfNulls<LatLng>(3)
-            point_new[0] = LatLng(41.8417846, 140.7675603)
-            point_new[1] = LatLng(41.8415718222, 140.767425299)
-            point_new[2] = LatLng(41.8395136176, 140.76271534)
-*/
+            //現在位置とスポットまでの距離計算
             val distance:MutableList<Int> = mutableListOf()
 
+            //for文で配列を入れていく
             point_new.forEachIndexed { i, point ->
                 val LatLngA = LatLng(location.latitude, location.longitude)
 
                 Log.d("test",point_new[0].toString())
 
+                //現在位置とスポットまでの距離計算
                 distance.add(computeDistanceBetween(LatLngA, point).toInt())
+
 
                 val marker: Marker =
                     map.addMarker(point?.let {
@@ -177,31 +272,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 
                     )
-                setOnMarkerClick(marker)
+
                 Check(distance[i])
             }
         }
 
     }
 
-    private var selectedMarker : Marker?=null
-
-    private fun setOnMarkerClick(marker:Marker?):Boolean {
-        if (marker == selectedMarker) {
-            selectedMarker = null
-            return true
-        }
-        selectedMarker = marker
-        return false
-    }
 
 
+
+    //現在位置にカメラが戻るボタン
     fun currentLatLng(currentLatLng : LatLng) {
         current_btn.setOnClickListener {
             map.animateCamera(CameraUpdateFactory.newLatLng(currentLatLng))
         }
     }
 
+    //スポットとの距離が5m以下になったら画面遷移
     private fun Check(distance: Int) {
 
         if (distance < 5) {
@@ -210,7 +298,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
     }
 
-
+    //以下サーバとの通信
     @SuppressLint("StaticFieldLeak")
     inner class HitAPITask: AsyncTask<String, String, String>(){
         override fun doInBackground(vararg params: String?): String? {
