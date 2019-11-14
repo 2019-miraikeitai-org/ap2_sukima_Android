@@ -62,6 +62,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     //LatLang型の配列
     private val point_new = arrayOfNulls<LatLng>(3)
 
+    //ジャンルを格納しているString型の配列 Ganre
+    private val Ganre = arrayListOf<String>("debug","eat","mattari","play","barabura")
 
     //拡大縮小機能の値
     enum class Zoom(val value: Float) {
@@ -243,12 +245,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 currentLatLng(currentLatLng)
             }
 
+
+            //Http通信
+            //Urlにくっつけるパラメータの設定
+
+            val ganre = "ganre=" + Ganre[0]//これはジャンルボタンを選択したときにそれぞれ設定する
+            val sukima_time = 70//これは設定したすきま時間
+
+            val PRA_ganre = ganre//ジャンルのパラメータの設定
+            val PRA_sukima_time = "sukima_time=" + sukima_time.toString()
             //HitAPITaskを呼び出して、APIをたたく
-            HitAPITask().execute("http://160.16.103.99/spots")
+            HitAPITask().execute("http://160.16.103.99/spots" + "?" +PRA_ganre + "&" + PRA_sukima_time)
+
             //緯度経度を取得するまで待つ
             Thread.sleep(10000)
 
-            //現在位置とスポットまでの距離計算
+
             val distance:MutableList<Int> = mutableListOf()
 
             //for文で配列を入れていく
@@ -328,7 +340,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         break
                     }
                     buffer.append(line)
-                    Log.d("CHECK", buffer.toString())
+                    Log.d("CHECK_API", buffer.toString())
                 }
 
                 //ここからは、今回はJSONなので、いわゆるJsonをParseする作業（Jsonの中の一つ一つのデータを取るような感じ）をしていきます。
@@ -341,6 +353,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 //以下追加かつテスト
                 val parentJsonArray = parentJsonObj.getJSONArray("spots")
+
                 val detailJsonObj = parentJsonArray.getJSONObject(0)
 
 
