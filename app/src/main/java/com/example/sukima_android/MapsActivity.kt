@@ -2,30 +2,25 @@ package com.example.sukima_android
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_maps.*
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.widget.TextView
-import android.widget.Toast
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 
 
 
@@ -186,6 +181,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 
 
+        }
+        val seachButton: ImageButton = findViewById(R.id.imageButton)
+        val Button01: ImageButton = findViewById(R.id.imageButton01)
+        val Button02: ImageButton = findViewById(R.id.imageButton02)
+        val Button03: ImageButton = findViewById(R.id.imageButton03)
+        val Button04: ImageButton = findViewById(R.id.imageButton04)
+        val closeButton: ImageButton = findViewById(R.id.closeButton)
+        seachButton.setOnClickListener {
+            seachButton.visibility= View.INVISIBLE
+            Button01.visibility=View.VISIBLE
+            Button02.visibility=View.VISIBLE
+            Button03.visibility=View.VISIBLE
+            Button04.visibility=View.VISIBLE
+            closeButton.visibility=View.VISIBLE
+        }
+        closeButton.setOnClickListener {
+            seachButton.visibility=View.VISIBLE
+            Button01.visibility=View.INVISIBLE
+            Button02.visibility=View.INVISIBLE
+            Button03.visibility=View.INVISIBLE
+            Button04.visibility=View.INVISIBLE
+            closeButton.visibility=View.INVISIBLE
         }
 
 
