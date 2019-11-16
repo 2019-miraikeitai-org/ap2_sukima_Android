@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="855dp"
             android:contentDescription="TODO"
+            android:background="@null"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent"
             map:layout_constraintHorizontal_bias="0.0"
@@ -209,6 +210,30 @@
             map:layout_constraintTop_toTopOf="parent"
             map:srcCompat="@drawable/batu" />
 
+        <ImageButton
+            android:id="@+id/current_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="1.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.082"
+            map:srcCompat="@drawable/genzaichi" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="66dp"
+            android:layout_height="112dp"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="1.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.998"
+            map:srcCompat="@drawable/puramai" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
