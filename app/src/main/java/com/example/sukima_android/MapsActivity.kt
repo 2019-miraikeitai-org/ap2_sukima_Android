@@ -1,25 +1,21 @@
 package com.example.sukima_android
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import android.os.AsyncTask
-
-import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.util.Log
-
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -31,8 +27,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-
-
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import kotlinx.android.synthetic.main.activity_maps.*
 import org.json.JSONException
@@ -227,7 +221,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
         map.getUiSettings().setZoomControlsEnabled(true)
 
-        //map.mapType = GoogleMap.MAP_TYPE_NONE  //mapを消せる(最後にコメントアウト消す)
+        map.mapType = GoogleMap.MAP_TYPE_NONE  //mapを消せる(最後にコメントアウト消す)
 
         map.uiSettings.isMapToolbarEnabled = false
 
@@ -389,21 +383,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 
 
-                val detailJsonObj = parentJsonArray.getJSONObject(0)
+                val detailJsonObj0 = parentJsonArray.getJSONObject(0)
+                val detailJsonObj1 = parentJsonArray.getJSONObject(1)
+                val detailJsonObj2 = parentJsonArray.getJSONObject(2)
 
 
 //以下緯度経度のパース
-                val position = detailJsonObj.getJSONObject("position")
-                val longitude = position.getDouble("longitude")
-                val latitude = position.getDouble("latitude")
+                val position0 = detailJsonObj0.getJSONObject("position")
+                val longitude0 = position0.getDouble("longitude")
+                val latitude0 = position0.getDouble("latitude")
 
                 // 以下メインで使えるようにLatLng型のグローバルな配列にスポットの値を代入
 
+                val position1 = detailJsonObj1.getJSONObject("position")
+                val longitude1 = position1.getDouble("longitude")
+                val latitude1 = position1.getDouble("latitude")
 
-                point_new[0] = LatLng(latitude, longitude)
-                point_new[1] = LatLng(41.8415718222, 140.767425299)
-                point_new[2] = LatLng(41.8395136176, 140.76271534)
+                val position2 = detailJsonObj2.getJSONObject("position")
+                val longitude2 = position2.getDouble("longitude")
+                val latitude2 = position2.getDouble("latitude")
 
+
+
+                point_new[0] = LatLng(latitude0, longitude0)
+                point_new[1] = LatLng(latitude1, longitude1)
+                point_new[2] = LatLng(latitude2, longitude2)
 
                 //以上緯度経度のパース
 
