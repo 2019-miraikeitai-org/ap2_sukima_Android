@@ -1,5 +1,6 @@
 package com.example.sukima_android
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +11,8 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.util.Log
+import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -34,6 +37,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
@@ -217,7 +221,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
         map.getUiSettings().setZoomControlsEnabled(true)
 
-        //map.mapType = GoogleMap.MAP_TYPE_NONE  //mapを消せる(最後にコメントアウト消す)
+        map.mapType = GoogleMap.MAP_TYPE_NONE  //mapを消せる(最後にコメントアウト消す)
 
         map.uiSettings.isMapToolbarEnabled = false
 
@@ -245,6 +249,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 currentLatLng(currentLatLng)
             }
 
+            val seachButton: ImageButton = findViewById(R.id.imageButton)
+            val Button01: ImageButton = findViewById(R.id.imageButton01)
+            val Button02: ImageButton = findViewById(R.id.imageButton02)
+            val Button03: ImageButton = findViewById(R.id.imageButton03)
+            val Button04: ImageButton = findViewById(R.id.imageButton04)
+            val closeButton: ImageButton = findViewById(R.id.closeButton)
+            seachButton.setOnClickListener {
+                seachButton.visibility= View.INVISIBLE
+                Button01.visibility=View.VISIBLE
+                Button02.visibility=View.VISIBLE
+                Button03.visibility=View.VISIBLE
+                Button04.visibility=View.VISIBLE
+                closeButton.visibility=View.VISIBLE
+            }
+            closeButton.setOnClickListener {
+                seachButton.visibility=View.VISIBLE
+                Button01.visibility=View.INVISIBLE
+                Button02.visibility=View.INVISIBLE
+                Button03.visibility=View.INVISIBLE
+                Button04.visibility=View.INVISIBLE
+                closeButton.visibility=View.INVISIBLE
+            }
 
             //Http通信
             //Urlにくっつけるパラメータの設定
@@ -288,6 +314,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 Check(distance[i])
             }
         }
+
 
     }
 
@@ -354,21 +381,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 //以下追加かつテスト
                 val parentJsonArray = parentJsonObj.getJSONArray("spots")
 
-                val detailJsonObj = parentJsonArray.getJSONObject(0)
+
+
+                val detailJsonObj0 = parentJsonArray.getJSONObject(0)
+                val detailJsonObj1 = parentJsonArray.getJSONObject(1)
+                val detailJsonObj2 = parentJsonArray.getJSONObject(2)
 
 
 //以下緯度経度のパース
-                val position = detailJsonObj.getJSONObject("position")
-                val longitude = position.getDouble("longitude")
-                val latitude = position.getDouble("latitude")
+                val position0 = detailJsonObj0.getJSONObject("position")
+                val longitude0 = position0.getDouble("longitude")
+                val latitude0 = position0.getDouble("latitude")
 
                 // 以下メインで使えるようにLatLng型のグローバルな配列にスポットの値を代入
 
+                val position1 = detailJsonObj1.getJSONObject("position")
+                val longitude1 = position1.getDouble("longitude")
+                val latitude1 = position1.getDouble("latitude")
 
-                point_new[0] = LatLng(latitude, longitude)
-                point_new[1] = LatLng(41.8415718222, 140.767425299)
-                point_new[2] = LatLng(41.8395136176, 140.76271534)
+                val position2 = detailJsonObj2.getJSONObject("position")
+                val longitude2 = position2.getDouble("longitude")
+                val latitude2 = position2.getDouble("latitude")
 
+
+
+                point_new[0] = LatLng(latitude0, longitude0)
+                point_new[1] = LatLng(latitude1, longitude1)
+                point_new[2] = LatLng(latitude2, longitude2)
 
                 //以上緯度経度のパース
 
@@ -397,6 +436,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             if (result == null) return
         }
     }
+
+
 
 }
 
