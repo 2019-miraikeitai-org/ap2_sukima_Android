@@ -10,6 +10,7 @@ import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.transition.TransitionSet
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
@@ -67,7 +68,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     private val point_new = arrayOfNulls<LatLng>(3)
 
     //ジャンルを格納しているString型の配列 Ganre
-    private val Ganre = arrayListOf<String>("debug","eat","mattari","play","barabura")
+    private val Genre = arrayListOf<String>("debug","eat","relax","play","stroll")
 
     //拡大縮小機能の値
     enum class Zoom(val value: Float) {
@@ -274,17 +275,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             //Http通信
             //Urlにくっつけるパラメータの設定
-
-            val ganre = "ganre=" + Ganre[0]//これはジャンルボタンを選択したときにそれぞれ設定する
-            val sukima_time = 70//これは設定したすきま時間
-
-            val PRA_ganre = ganre//ジャンルのパラメータの設定
-            val PRA_sukima_time = "sukima_time=" + sukima_time.toString()
+            val intent: Intent = getIntent()//インスタンスの引継ぎ
+            val message: String = intent.getStringExtra(EXTRA_MESSAGE)//すきま時間の呼び出し
+            val skima_time =message//これは設定したすきま時間
+            val PRA_skima_time = "skima_time=" + skima_time.toString()
             //HitAPITaskを呼び出して、APIをたたく
-            HitAPITask().execute("http://160.16.103.99/spots" + "?" +PRA_ganre + "&" + PRA_sukima_time)
+            HitAPITask().execute("GET","http://160.16.103.99/spots" + "?" + PRA_skima_time +"&latitude=41.8418176033"+"&longitude=140.766967982")
+
+            //以下ジャンルにボタンを押したときの処理
+            Button01.setOnClickListener{
+                val PRA_genre = "genre=" + Genre[1]//eat
+                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude=41.8418176033"+"&longitude=140.766967982")
+            }
+            Button02.setOnClickListener{
+                val PRA_genre = "genre=" + Genre[2]//relax
+                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude=41.8418176033"+"&longitude=140.766967982")
+            }
+            Button03.setOnClickListener{
+                val PRA_genre = "genre=" + Genre[3]//play
+                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude=41.8418176033"+"&longitude=140.766967982")
+            }
+            Button04.setOnClickListener{
+                val PRA_genre = "genre=" + Genre[4]//stroll
+                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude=41.8418176033"+"&longitude=140.766967982")
+            }
+//以上ジャンルボタンを押したときの処理
+
 
             //緯度経度を取得するまで待つ
-            Thread.sleep(10000)
+            //Thread.sleep(10000)
 
 
             val distance:MutableList<Int> = mutableListOf()
@@ -293,7 +312,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             point_new.forEachIndexed { i, point ->
                 val LatLngA = LatLng(location.latitude, location.longitude)
 
-                Log.d("test",point_new[0].toString())
+                Log.d("test",point_new[i].toString())
 
                 //現在位置とスポットまでの距離計算
                 distance.add(computeDistanceBetween(LatLngA, point).toInt())
@@ -349,8 +368,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             try {
                 //param[0]にはAPIのURI(String)を入れます(後ほど)。
                 //AsynkTask<...>の一つめがStringな理由はURIをStringで指定するからです。
-                val url = URL(params[0])
+                val url = URL(params[1])
                 connection = url.openConnection() as HttpURLConnection
+
+                if(params[0]=="GET"){
+                    connection.requestMethod = "GET"
+                    connection.addRequestProperty("genre","eat")
+                }else if(params[0]=="POST"){
+                    connection.requestMethod  = "POST"
+                }
+
+
+
                 connection.connect()  //ここで指定したAPIを叩いてみてます。
 
                 //ここから叩いたAPIから帰ってきたデータを使えるよう処理していきます。
@@ -408,6 +437,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 point_new[0] = LatLng(latitude0, longitude0)
                 point_new[1] = LatLng(latitude1, longitude1)
                 point_new[2] = LatLng(latitude2, longitude2)
+
+                Log.d("test2",point_new[0].toString())
+                Log.d("test2",point_new[1].toString())
+                Log.d("test2",point_new[2].toString())
 
                 //以上緯度経度のパース
 
