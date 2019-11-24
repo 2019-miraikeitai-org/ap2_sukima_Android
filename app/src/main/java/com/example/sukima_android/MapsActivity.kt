@@ -285,6 +285,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val PRA_Curlongitude = location.longitude.toString()//現在地
             val PRA_skima_time = "skima_time=" + skima_time.toString()
 
+            Log.d("1102","http://160.16.103.99/spots" + "?" + PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
+
 
             //HitAPITaskを呼び出して、APIをたたく
             HitAPITask().execute("GET","http://160.16.103.99/spots" + "?" + PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
@@ -546,7 +548,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 val longitude0 = position0.getDouble("longitude")
                 val latitude0 = position0.getDouble("latitude")
 //ジャンルのパース
-                val genre0 = detailJsonObj0.getJSONObject("genre")
+                val genre0 = detailJsonObj0.getString("genre")
                 SER_Genre[0] = genre0.toString()
                 // 以下メインで使えるようにLatLng型のグローバルな配列にスポットの値を代入
 
@@ -554,14 +556,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 val longitude1 = position1.getDouble("longitude")
                 val latitude1 = position1.getDouble("latitude")
 
-                val genre1 = detailJsonObj1.getJSONObject("genre")
+                val genre1 = detailJsonObj1.getString("genre")
                 SER_Genre[1] = genre1.toString()
 
                 val position2 = detailJsonObj2.getJSONObject("position")
                 val longitude2 = position2.getDouble("longitude")
                 val latitude2 = position2.getDouble("latitude")
 
-                val genre2 = detailJsonObj2.getJSONObject("genre")
+                val genre2 = detailJsonObj2.getString("genre")
                 SER_Genre[2] = genre2.toString()
 
 
