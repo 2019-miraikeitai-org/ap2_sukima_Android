@@ -1,22 +1,20 @@
 package com.example.sukima_android
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
-import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.transition.TransitionSet
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,19 +27,21 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_maps.*
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import kotlin.coroutines.CoroutineContext
 
 
-
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener,
+    CoroutineScope {
 
     override fun onMarkerClick(p0: Marker?) = false
 
@@ -63,15 +63,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     }
 
 
-
     //LatLang型の配列
     private val point_new = arrayOfNulls<LatLng>(3)
 
     //ジャンルを格納しているString型の配列 Ganre
-    private val Genre = arrayListOf<String>("debug","eat","relax","play","stroll")
+    private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
 
     //サーバーからとってきた値のジャンル
     private val SER_Genre = arrayOfNulls<String>(3)
+
+    private val okHttp = OkHttpClient()
+        .newBuilder()
+        .addNetworkInterceptor(StethoInterceptor())
+        .build()
+
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
+    private val retrofit = Retrofit.Builder()
+        .client(okHttp)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl("http://160.16.103.99")
+        .build()
+
+    private val client by lazy { retrofit.create(SkimattiClient::class.java) }
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     //拡大縮小機能の値
     enum class Zoom(val value: Float) {
@@ -109,7 +128,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
 
         createLocationRequest()
-
     }
 
     //位置情報の権限
@@ -131,15 +149,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     //場所の更新をリクエスト
     private fun startLocationUpdates() {
         //1
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
         //2
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            null /* Looper */
+        )
     }
 
     private fun createLocationRequest() {
@@ -169,8 +196,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 // タスク失敗
                 try {
                     // ダイアログを表示
-                    e.startResolutionForResult(this@MapsActivity,
-                        REQUEST_CHECK_SETTINGS)
+                    e.startResolutionForResult(
+                        this@MapsActivity,
+                        REQUEST_CHECK_SETTINGS
+                    )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // エラーを無視する
                 }
@@ -260,134 +289,141 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val Button04: ImageButton = findViewById(R.id.imageButton04)
             val closeButton: ImageButton = findViewById(R.id.closeButton)
             seachButton.setOnClickListener {
-                seachButton.visibility= View.INVISIBLE
-                Button01.visibility=View.VISIBLE
-                Button02.visibility=View.VISIBLE
-                Button03.visibility=View.VISIBLE
-                Button04.visibility=View.VISIBLE
-                closeButton.visibility=View.VISIBLE
+                seachButton.visibility = View.INVISIBLE
+                Button01.visibility = View.VISIBLE
+                Button02.visibility = View.VISIBLE
+                Button03.visibility = View.VISIBLE
+                Button04.visibility = View.VISIBLE
+                closeButton.visibility = View.VISIBLE
             }
             closeButton.setOnClickListener {
-                seachButton.visibility=View.VISIBLE
-                Button01.visibility=View.INVISIBLE
-                Button02.visibility=View.INVISIBLE
-                Button03.visibility=View.INVISIBLE
-                Button04.visibility=View.INVISIBLE
-                closeButton.visibility=View.INVISIBLE
+                seachButton.visibility = View.VISIBLE
+                Button01.visibility = View.INVISIBLE
+                Button02.visibility = View.INVISIBLE
+                Button03.visibility = View.INVISIBLE
+                Button04.visibility = View.INVISIBLE
+                closeButton.visibility = View.INVISIBLE
             }
 
             //Http通信
             //Urlにくっつけるパラメータの設定
             val intent: Intent = getIntent()//インスタンスの引継ぎ
             val message: String = intent.getStringExtra(EXTRA_MESSAGE)//すきま時間の呼び出し
-            val skima_time =message//これは設定したすきま時間
-            val PRA_Curlatitude = location.latitude.toString()//現在地
-            val PRA_Curlongitude = location.longitude.toString()//現在地
+            val skima_time = message//これは設定したすきま時間
+            val PRA_Curlatitude = location.latitude//現在地
+            val PRA_Curlongitude = location.longitude//現在地
             val PRA_skima_time = "skima_time=" + skima_time.toString()
 
-            Log.d("1102","http://160.16.103.99/spots" + "?" + PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
 
 
-            //HitAPITaskを呼び出して、APIをたたく
-            HitAPITask().execute("GET","http://160.16.103.99/spots" + "?" + PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
-            Thread.sleep(10000)
-            val distance:MutableList<Int> = mutableListOf()
-            //for文で配列を入れていく
-            point_new.forEachIndexed { i, point ->
-                val LatLngA = LatLng(location.latitude, location.longitude)
-                Log.d("test",point_new[i].toString())
-                //現在位置とスポットまでの距離計算
-                distance.add(computeDistanceBetween(LatLngA, point).toInt())
-                if(SER_Genre[i] == Genre[1]){
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
+            ////HitAPITaskを呼び出して、APIをたたく
+            //HitAPITask().execute(
+            //    "GET",
+            //    "http://160.16.103.99/spots" + "?" + PRA_skima_time + "&latitude=" + PRA_Curlatitude + "&longitude=" + PRA_Curlongitude
+            //)
+            //Thread.sleep(10000)
+
+            launch {
+                try{
+                    val resp =
+                        client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
+
+                    resp.spots.forEachIndexed { i, v ->
+                        if (i > 2) return@forEachIndexed
+
+                        val lat = v.position.latitude
+                        val lng = v.position.longitude
+                        SER_Genre[i] = v.genre
+                        point_new[i] = LatLng(lat, lng)
+                    }
+                    val distance: MutableList<Int> = mutableListOf()
+                    //for文で配列を入れていく
+                    point_new.forEachIndexed { i, point ->
+                        val LatLngA = LatLng(location.latitude, location.longitude)
+                        Log.d("test", point_new[i].toString())
+                        //現在位置とスポットまでの距離計算
+                        distance.add(computeDistanceBetween(LatLngA, point).toInt())
+                        if (SER_Genre[i] == Genre[1]) {
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
+                                }
+                                )
+                            Check(distance[i])
+                        } else if (SER_Genre[i] == Genre[2]) {
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
+                                }
+                                )
+                            Check(distance[i])
+                        } else if (SER_Genre[i] == Genre[3]) {
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
+                                }
+                                )
+                            Check(distance[i])
+                        } else if (SER_Genre[i] == Genre[4]) {
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
+                                }
+                                )
+                            Check(distance[i])
                         }
-                        )
-                    Check(distance[i])
-                }else if(SER_Genre[i] == Genre[2]){
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
-                        }
-                        )
-                    Check(distance[i])
-                }else if(SER_Genre[i] == Genre[3]){
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
-                        }
-                        )
-                    Check(distance[i])
-                }else if(SER_Genre[i] == Genre[4]){
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
-                        }
-                        )
-                    Check(distance[i])
+
+
+                    }
+
+                }catch (e: Throwable) {
+                    Log.e("e", e.toString())
                 }
-
             }
+
 
 
             //以下ジャンルにボタンを押したときの処理
-            Button01.setOnClickListener{
-                val PRA_genre = "genre=" + Genre[1]//eat
+            Button01.setOnClickListener {
+                val PRA_genre = Genre[1]//eat
 
                 map.clear()
 
-                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
-                //緯度経度を取得するまで待つ
-                Thread.sleep(10000)
-                val distance:MutableList<Int> = mutableListOf()
-                //for文で配列を入れていく
-                point_new.forEachIndexed { i, point ->
-                    val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test",point_new[i].toString())
-                    //現在位置とスポットまでの距離計算
-                    distance.add(computeDistanceBetween(LatLngA, point).toInt())
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
+                launch {
+                    try {
+                        val resp =
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+
+                        resp.spots.forEachIndexed { i, v ->
+                            if (i > 2) return@forEachIndexed
+
+                            val lat = v.position.latitude
+                            val lng = v.position.longitude
+                            SER_Genre[i] = v.genre
+                            point_new[i] = LatLng(lat, lng)
                         }
-                        )
-                    Check(distance[i])
-                }
-            }
 
-            Button02.setOnClickListener{
-                val PRA_genre = "genre=" + Genre[2]//relax
-
-                map.clear()
-                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
-                //緯度経度を取得するまで待つ
-                Thread.sleep(10000)
-                val distance:MutableList<Int> = mutableListOf()
+                val distance: MutableList<Int> = mutableListOf()
                 //for文で配列を入れていく
                 point_new.forEachIndexed { i, point ->
                     val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test",point_new[i].toString())
+                    Log.d("test", point_new[i].toString())
                     //現在位置とスポットまでの距離計算
                     distance.add(computeDistanceBetween(LatLngA, point).toInt())
                     val marker: Marker =
@@ -395,50 +431,88 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             MarkerOptions()
                                 .position(it)
                                 .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
-                        }
-                        )
-                    Check(distance[i])
-                }
-            }
-            Button03.setOnClickListener{
-                val PRA_genre = "genre=" + Genre[3]//play
-
-                map.clear()
-                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
-                //緯度経度を取得するまで待つ
-                Thread.sleep(10000)
-                val distance:MutableList<Int> = mutableListOf()
-                //for文で配列を入れていく
-                point_new.forEachIndexed { i, point ->
-                    val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test",point_new[i].toString())
-                    //現在位置とスポットまでの距離計算
-                    distance.add(computeDistanceBetween(LatLngA, point).toInt())
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
+                                .snippet("${distance[i] / 80}分")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                         }
                         )
                     Check(distance[i])
                 }
+                    } catch (e: Throwable) {
+                        Log.e("e", e.toString())
+                    }
+                }
             }
-            Button04.setOnClickListener{
-                val PRA_genre = "genre=" + Genre[4]//stroll
+
+            Button02.setOnClickListener {
+                val PRA_genre = Genre[2]//relax
                 map.clear()
-                HitAPITask().execute("GET","http://160.16.103.99/spots" + "?"+ PRA_genre +"&"+ PRA_skima_time +"&latitude="+ PRA_Curlatitude +"&longitude="+ PRA_Curlongitude)
+
+                //HitAPITask().execute(
+                //    "GET",
+                //    "http://160.16.103.99/spots" + "?" + PRA_genre + "&" + PRA_skima_time + "&latitude=" + PRA_Curlatitude + "&longitude=" + PRA_Curlongitude
+                //)
+
+                launch {
+                    try {
+                        val resp =
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+
+                        resp.spots.forEachIndexed { i, v ->
+                            if (i > 2) return@forEachIndexed
+
+                            val lat = v.position.latitude
+                            val lng = v.position.longitude
+                            SER_Genre[i] = v.genre
+                            point_new[i] = LatLng(lat, lng)
+                        }
+                        val distance: MutableList<Int> = mutableListOf()
+                        //for文で配列を入れていく
+                        point_new.forEachIndexed { i, point ->
+                            val LatLngA = LatLng(location.latitude, location.longitude)
+                            Log.d("test", point_new[i].toString())
+                            //現在位置とスポットまでの距離計算
+                            distance.add(computeDistanceBetween(LatLngA, point).toInt())
+                            map.addMarker(point?.let {
+                                MarkerOptions()
+                                    .position(it)
+                                    .title("${distance[i]} m")
+                                    .snippet("${distance[i] / 80}分")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
+                            }
+                            )
+                            Check(distance[i])
+                        }
+                    } catch (e: Throwable) {
+                        Log.e("e", e.toString())
+                    }
+                }
+
                 //緯度経度を取得するまで待つ
-                Thread.sleep(10000)
-                val distance:MutableList<Int> = mutableListOf()
+            }
+            Button03.setOnClickListener {
+                val PRA_genre = Genre[3]//play
+
+                map.clear()
+
+                launch {
+                    try {
+                        val resp =
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+
+                        resp.spots.forEachIndexed { i, v ->
+                            if (i > 2) return@forEachIndexed
+
+                            val lat = v.position.latitude
+                            val lng = v.position.longitude
+                            SER_Genre[i] = v.genre
+                            point_new[i] = LatLng(lat, lng)
+                        }
+
+                val distance: MutableList<Int> = mutableListOf()
                 //for文で配列を入れていく
                 point_new.forEachIndexed { i, point ->
                     val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test",point_new[i].toString())
+                    Log.d("test", point_new[i].toString())
                     //現在位置とスポットまでの距離計算
                     distance.add(computeDistanceBetween(LatLngA, point).toInt())
                     val marker: Marker =
@@ -446,17 +520,58 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             MarkerOptions()
                                 .position(it)
                                 .title("${distance[i]} m")
-                                .snippet("${distance[i]/ 80}分")
+                                .snippet("${distance[i] / 80}分")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
                     Check(distance[i])
                 }
+            } catch (e: Throwable) {
+            Log.e("e", e.toString())
+        }
+        }
+            }
+            Button04.setOnClickListener {
+                val PRA_genre = Genre[4]//stroll
+                map.clear()
+
+                launch {
+                    try {
+                        val resp =
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+
+                        resp.spots.forEachIndexed { i, v ->
+                            if (i > 2) return@forEachIndexed
+
+                            val lat = v.position.latitude
+                            val lng = v.position.longitude
+                            SER_Genre[i] = v.genre
+                            point_new[i] = LatLng(lat, lng)
+                        }
+                val distance: MutableList<Int> = mutableListOf()
+                //for文で配列を入れていく
+                point_new.forEachIndexed { i, point ->
+                    val LatLngA = LatLng(location.latitude, location.longitude)
+                    Log.d("test", point_new[i].toString())
+                    //現在位置とスポットまでの距離計算
+                    distance.add(computeDistanceBetween(LatLngA, point).toInt())
+                    val marker: Marker =
+                        map.addMarker(point?.let {
+                            MarkerOptions()
+                                .position(it)
+                                .title("${distance[i]} m")
+                                .snippet("${distance[i] / 80}分")
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
+                        }
+                        )
+                    Check(distance[i])
+                }
+                    } catch (e: Throwable) {
+                        Log.e("e", e.toString())
+                    }
+                }
             }
 //以上ジャンルボタンを押したときの処理
-
-
-
 
 
         }
@@ -465,10 +580,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     }
 
 
-
-
     //現在位置にカメラが戻るボタン
-    fun currentLatLng(currentLatLng : LatLng) {
+    fun currentLatLng(currentLatLng: LatLng) {
         current_btn.setOnClickListener {
             map.animateCamera(CameraUpdateFactory.newLatLng(currentLatLng))
         }
@@ -483,126 +596,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
     }
 
-    //以下サーバとの通信
-    @SuppressLint("StaticFieldLeak")
-    inner class HitAPITask: AsyncTask<String, String, String>(){
-        override fun doInBackground(vararg params: String?): String? {
-            //ここでAPIを叩きます。バックグラウンドで処理する内容です。
-            var connection: HttpURLConnection? = null
-            var reader: BufferedReader? = null
-            val buffer: StringBuffer
-
-            try {
-                //param[0]にはAPIのURI(String)を入れます(後ほど)。
-                //AsynkTask<...>の一つめがStringな理由はURIをStringで指定するからです。
-                val url = URL(params[1])
-                connection = url.openConnection() as HttpURLConnection
-
-                if(params[0]=="GET"){
-                    connection.requestMethod = "GET"
-                }else if(params[0]=="POST"){
-                    connection.requestMethod  = "POST"
-                }
 
 
-
-                connection.connect()  //ここで指定したAPIを叩いてみてます。
-
-                //ここから叩いたAPIから帰ってきたデータを使えるよう処理していきます。
-
-                //とりあえず取得した文字をbufferに。
-                val stream = connection.inputStream
-                reader = BufferedReader(InputStreamReader(stream))
-                buffer = StringBuffer()
-                var line: String?
-                while (true) {
-                    line = reader.readLine()
-                    if (line == null) {
-
-                        break
-                    }
-                    buffer.append(line)
-                    Log.d("CHECK_API", buffer.toString())
-                }
-
-                //ここからは、今回はJSONなので、いわゆるJsonをParseする作業（Jsonの中の一つ一つのデータを取るような感じ）をしていきます。
-
-                //先ほどbufferに入れた、取得した文字列
-                val jsonText = buffer.toString()
-
-                //JSONObjectを使って、まず全体のJSONObjectを取ります。
-                val parentJsonObj = JSONObject(jsonText)
-
-//以下追加かつテスト
-                val parentJsonArray = parentJsonObj.getJSONArray("spots")
-
-
-
-                val detailJsonObj0 = parentJsonArray.getJSONObject(0)
-                val detailJsonObj1 = parentJsonArray.getJSONObject(1)
-                val detailJsonObj2 = parentJsonArray.getJSONObject(2)
-
-
-//以下緯度経度のパース
-                val position0 = detailJsonObj0.getJSONObject("position")
-                val longitude0 = position0.getDouble("longitude")
-                val latitude0 = position0.getDouble("latitude")
-//ジャンルのパース
-                val genre0 = detailJsonObj0.getString("genre")
-                SER_Genre[0] = genre0.toString()
-                // 以下メインで使えるようにLatLng型のグローバルな配列にスポットの値を代入
-
-                val position1 = detailJsonObj1.getJSONObject("position")
-                val longitude1 = position1.getDouble("longitude")
-                val latitude1 = position1.getDouble("latitude")
-
-                val genre1 = detailJsonObj1.getString("genre")
-                SER_Genre[1] = genre1.toString()
-
-                val position2 = detailJsonObj2.getJSONObject("position")
-                val longitude2 = position2.getDouble("longitude")
-                val latitude2 = position2.getDouble("latitude")
-
-                val genre2 = detailJsonObj2.getString("genre")
-                SER_Genre[2] = genre2.toString()
-
-
-                point_new[0] = LatLng(latitude0, longitude0)
-                point_new[1] = LatLng(latitude1, longitude1)
-                point_new[2] = LatLng(latitude2, longitude2)
-
-                Log.d("test2",point_new[0].toString())
-                Log.d("test2",point_new[1].toString())
-                Log.d("test2",point_new[2].toString())
-
-                //以上緯度経度のパース
-
-                //ここから下は、接続エラーとかJSONのエラーとかで失敗した時にエラーを処理する為のものです。
-            } catch (e: MalformedURLException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-            //finallyで接続を切断してあげましょう。
-            finally {
-                connection?.disconnect()
-                try {
-                    reader?.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-            //失敗した時はnullやエラーコードなどを返しましょう。
-            return null
-        }
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            if (result == null) return
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
-
 
 
 }
