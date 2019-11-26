@@ -1,9 +1,7 @@
 package com.example.sukima_android
 
 
-import android.app.Activity
 import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -15,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -49,6 +46,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var dbglat : Double = 0.0
+    private var dbglon : Double = 0.0
+
 
     //現在地を更新していくやつ
     private lateinit var locationCallback: LocationCallback
@@ -127,7 +128,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             }
         }
 
-        createLocationRequest()
+        //createLocationRequest()
     }
 
     //位置情報の権限
@@ -146,92 +147,92 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
     }
 
-    //場所の更新をリクエスト
-    private fun startLocationUpdates() {
-        //1
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
-            return
-        }
-        //2
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            null /* Looper */
-        )
-    }
+    ////場所の更新をリクエスト
+    //private fun startLocationUpdates() {
+    //    //1
+    //    if (ActivityCompat.checkSelfPermission(
+    //            this,
+    //            android.Manifest.permission.ACCESS_FINE_LOCATION
+    //        ) != PackageManager.PERMISSION_GRANTED
+    //    ) {
+    //        ActivityCompat.requestPermissions(
+    //            this,
+    //            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+    //            LOCATION_PERMISSION_REQUEST_CODE
+    //        )
+    //        return
+    //    }
+    //    //2
+    //    fusedLocationClient.requestLocationUpdates(
+    //        locationRequest,
+    //        locationCallback,
+    //        null /* Looper */
+    //    )
+    //}
+//
+    //private fun createLocationRequest() {
+    //    //ユーザの場所の変更の処理を行う
+    //    locationRequest = LocationRequest()
+    //    // インターバル。アプリが更新を受信する頻度
+    //    locationRequest.interval = 10000
+    //    // アプリが更新を最速にできるレート
+    //    locationRequest.fastestInterval = 5000
+    //    locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//
+    //    val builder = LocationSettingsRequest.Builder()
+    //        .addLocationRequest(locationRequest)
+//
+    //    // 設定クライアントと場所の設定を確認するタスク
+    //    val client = LocationServices.getSettingsClient(this)
+    //    val task = client.checkLocationSettings(builder.build())
+//
+    //    // タスク成功。位置情報要求を開始
+    //    task.addOnSuccessListener {
+    //        locationUpdateState = true
+    //        startLocationUpdates()
+    //    }
+    //    task.addOnFailureListener { e ->
+    //        // タスク失敗。ユーザの位置情報権限がオフになった場合である。ダイアログを表示させる。
+    //        if (e is ResolvableApiException) {
+    //            // タスク失敗
+    //            try {
+    //                // ダイアログを表示
+    //                e.startResolutionForResult(
+    //                    this@MapsActivity,
+    //                    REQUEST_CHECK_SETTINGS
+    //                )
+    //            } catch (sendEx: IntentSender.SendIntentException) {
+    //                // エラーを無視する
+    //            }
+    //        }
+    //    }
+    //}
+//
+    //override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    //    super.onActivityResult(requestCode, resultCode, data)
+    //    if (requestCode == REQUEST_CHECK_SETTINGS) {
+    //        if (resultCode == Activity.RESULT_OK) {
+    //            locationUpdateState = true
+    //            startLocationUpdates()
+    //        }
+    //    }
+    //}
 
-    private fun createLocationRequest() {
-        //ユーザの場所の変更の処理を行う
-        locationRequest = LocationRequest()
-        // インターバル。アプリが更新を受信する頻度
-        locationRequest.interval = 10000
-        // アプリが更新を最速にできるレート
-        locationRequest.fastestInterval = 5000
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    //// onPause（）をオーバーライドして、ロケーション更新リクエストを停止します
+    //override fun onPause() {
+    //    super.onPause()
+    //    fusedLocationClient.removeLocationUpdates(locationCallback)
+    //}
 
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-
-        // 設定クライアントと場所の設定を確認するタスク
-        val client = LocationServices.getSettingsClient(this)
-        val task = client.checkLocationSettings(builder.build())
-
-        // タスク成功。位置情報要求を開始
-        task.addOnSuccessListener {
-            locationUpdateState = true
-            startLocationUpdates()
-        }
-        task.addOnFailureListener { e ->
-            // タスク失敗。ユーザの位置情報権限がオフになった場合である。ダイアログを表示させる。
-            if (e is ResolvableApiException) {
-                // タスク失敗
-                try {
-                    // ダイアログを表示
-                    e.startResolutionForResult(
-                        this@MapsActivity,
-                        REQUEST_CHECK_SETTINGS
-                    )
-                } catch (sendEx: IntentSender.SendIntentException) {
-                    // エラーを無視する
-                }
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            if (resultCode == Activity.RESULT_OK) {
-                locationUpdateState = true
-                startLocationUpdates()
-            }
-        }
-    }
-
-    // onPause（）をオーバーライドして、ロケーション更新リクエストを停止します
-    override fun onPause() {
-        super.onPause()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
-    }
-
-    // onResume（）をオーバーライドして、ロケーション更新リクエストを再開します。
-    public override fun onResume() {
-        super.onResume()
-        if (!locationUpdateState) {
-            startLocationUpdates()
-        }
-    }
-
-
+    //// onResume（）をオーバーライドして、ロケーション更新リクエストを再開します。
+    //public override fun onResume() {
+    //    super.onResume()
+    //    if (!locationUpdateState) {
+    //        startLocationUpdates()
+    //    }
+    //}
+//
+//
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -275,12 +276,98 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         //fused locationの機能(位置情報取得)
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
 
+            var dbg_x  = 0.0
+            var dbg_y = 0.0
+
             if (location != null) {
                 lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
+                val currentLatLng = LatLng(location.latitude  , location.longitude )
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(location.latitude + dbg_x, location.longitude + dbg_y))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.me))
+                )
                 map.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
                 currentLatLng(currentLatLng)
             }
+
+            button.setOnClickListener {
+                dbg_x = dbg_x + 0.00008983148616
+
+                dbglat =location.latitude + dbg_x
+                dbglon=location.longitude + dbg_y
+
+                val distance: MutableList<Int> = mutableListOf()
+
+                val LatLngA = LatLng(dbglat, dbglon)
+                Log.d("test", point_new[0].toString())
+                //現在位置とスポットまでの距離計算
+                distance.add(computeDistanceBetween(LatLngA, point_new[0]).toInt())
+
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(location.latitude + dbg_x, location.longitude + dbg_y))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.me))
+                )
+            }
+
+            button2.setOnClickListener {
+                dbg_y = dbg_y - 0.00008983148616
+                dbglat =location.latitude + dbg_x
+                dbglon=location.longitude + dbg_y
+
+                val distance: MutableList<Int> = mutableListOf()
+
+                val LatLngA = LatLng(dbglat, dbglon)
+                Log.d("test", point_new[0].toString())
+                //現在位置とスポットまでの距離計算
+                distance.add(computeDistanceBetween(LatLngA, point_new[0]).toInt())
+
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(location.latitude + dbg_x, location.longitude + dbg_y))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.me))
+                )
+            }
+
+            button3.setOnClickListener {
+                dbg_y = dbg_y + 0.00008983148616
+                dbglat =location.latitude + dbg_x
+                dbglon=location.longitude + dbg_y
+
+                val distance: MutableList<Int> = mutableListOf()
+
+                val LatLngA = LatLng(dbglat, dbglon)
+                Log.d("test", point_new[0].toString())
+                //現在位置とスポットまでの距離計算
+                distance.add(computeDistanceBetween(LatLngA, point_new[0]).toInt())
+
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(location.latitude + dbg_x, location.longitude + dbg_y))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.me))
+                )
+            }
+
+            button4.setOnClickListener {
+                dbg_x = dbg_x - 0.00008983148616
+                dbglat =location.latitude + dbg_x
+                dbglon=location.longitude + dbg_y
+
+                val distance: MutableList<Int> = mutableListOf()
+
+                val LatLngA = LatLng(dbglat, dbglon)
+                Log.d("test", point_new[0].toString())
+                //現在位置とスポットまでの距離計算
+                distance.add(computeDistanceBetween(LatLngA, point_new[0]).toInt())
+
+                map.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(location.latitude + dbg_x, location.longitude + dbg_y))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.me))
+                )
+            }
+
 
             val seachButton: ImageButton = findViewById(R.id.imageButton)
             val Button01: ImageButton = findViewById(R.id.imageButton01)
@@ -338,8 +425,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                     }
                     val distance: MutableList<Int> = mutableListOf()
                     //for文で配列を入れていく
+
+
                     point_new.forEachIndexed { i, point ->
-                        val LatLngA = LatLng(location.latitude, location.longitude)
+                        val LatLngA = LatLng(dbglat, dbglon)
                         Log.d("test", point_new[i].toString())
                         //現在位置とスポットまでの距離計算
                         distance.add(computeDistanceBetween(LatLngA, point).toInt())
@@ -419,24 +508,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             point_new[i] = LatLng(lat, lng)
                         }
 
-                val distance: MutableList<Int> = mutableListOf()
-                //for文で配列を入れていく
-                point_new.forEachIndexed { i, point ->
-                    val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test", point_new[i].toString())
-                    //現在位置とスポットまでの距離計算
-                    distance.add(computeDistanceBetween(LatLngA, point).toInt())
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i] / 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
+                        val distance: MutableList<Int> = mutableListOf()
+                        //for文で配列を入れていく
+                        point_new.forEachIndexed { i, point ->
+                            val LatLngA = LatLng(dbglat, dbglon)
+                            Log.d("test", point_new[i].toString())
+                            //現在位置とスポットまでの距離計算
+                            distance.add(computeDistanceBetween(LatLngA, point).toInt())
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
+                                }
+                                )
+                            Check(distance[i])
                         }
-                        )
-                    Check(distance[i])
-                }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
                     }
@@ -468,7 +557,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         val distance: MutableList<Int> = mutableListOf()
                         //for文で配列を入れていく
                         point_new.forEachIndexed { i, point ->
-                            val LatLngA = LatLng(location.latitude, location.longitude)
+                            val LatLngA = LatLng(dbglat, dbglon)
                             Log.d("test", point_new[i].toString())
                             //現在位置とスポットまでの距離計算
                             distance.add(computeDistanceBetween(LatLngA, point).toInt())
@@ -508,28 +597,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             point_new[i] = LatLng(lat, lng)
                         }
 
-                val distance: MutableList<Int> = mutableListOf()
-                //for文で配列を入れていく
-                point_new.forEachIndexed { i, point ->
-                    val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test", point_new[i].toString())
-                    //現在位置とスポットまでの距離計算
-                    distance.add(computeDistanceBetween(LatLngA, point).toInt())
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i] / 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
+                        val distance: MutableList<Int> = mutableListOf()
+                        //for文で配列を入れていく
+                        point_new.forEachIndexed { i, point ->
+                            val LatLngA = LatLng(dbglat, dbglon)
+                            Log.d("test", point_new[i].toString())
+                            //現在位置とスポットまでの距離計算
+                            distance.add(computeDistanceBetween(LatLngA, point).toInt())
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
+                                }
+                                )
+                            Check(distance[i])
                         }
-                        )
-                    Check(distance[i])
+                    } catch (e: Throwable) {
+                        Log.e("e", e.toString())
+                    }
                 }
-            } catch (e: Throwable) {
-            Log.e("e", e.toString())
-        }
-        }
             }
             Button04.setOnClickListener {
                 val PRA_genre = Genre[4]//stroll
@@ -548,24 +637,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                         }
-                val distance: MutableList<Int> = mutableListOf()
-                //for文で配列を入れていく
-                point_new.forEachIndexed { i, point ->
-                    val LatLngA = LatLng(location.latitude, location.longitude)
-                    Log.d("test", point_new[i].toString())
-                    //現在位置とスポットまでの距離計算
-                    distance.add(computeDistanceBetween(LatLngA, point).toInt())
-                    val marker: Marker =
-                        map.addMarker(point?.let {
-                            MarkerOptions()
-                                .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i] / 80}分")
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
+                        val distance: MutableList<Int> = mutableListOf()
+                        //for文で配列を入れていく
+                        point_new.forEachIndexed { i, point ->
+                            val LatLngA = LatLng(dbglat, dbglon)
+                            Log.d("test", point_new[i].toString())
+                            //現在位置とスポットまでの距離計算
+                            distance.add(computeDistanceBetween(LatLngA, point).toInt())
+                            val marker: Marker =
+                                map.addMarker(point?.let {
+                                    MarkerOptions()
+                                        .position(it)
+                                        .title("${distance[i]} m")
+                                        .snippet("${distance[i] / 80}分")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
+                                }
+                                )
+                            Check(distance[i])
                         }
-                        )
-                    Check(distance[i])
-                }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
                     }
@@ -590,7 +679,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     //スポットとの距離が5m以下になったら画面遷移
     private fun Check(distance: Int) {
 
-        if (distance < 5) {
+        if (distance < 30) {
             val intent = Intent(this, CheckIn::class.java)
             startActivity(intent)
         }
@@ -605,5 +694,3 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 
 }
-
-
