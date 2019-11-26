@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <LinearLayout android:orientation="horizontal" android:layout_height="match_parent" android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent" android:layout_width="match_parent" android:id="@+id/constraitLayout">
+
+    <TextView android:layout_height="32dp" android:layout_width="297dp" android:id="@+id/gender" app:layout_constraintTop_toBottomOf="@+id/age" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.456" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/gender_button" android:textSize="22sp" android:textColor="#E91E63" android:textAllCaps="false" android:text="②性別を入力しよう！" android:layout_marginTop="50dp"/>
+
+    <ImageView android:layout_height="218dp" android:layout_width="438dp" android:id="@+id/imageView" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.518" app:layout_constraintEnd_toEndOf="parent" app:srcCompat="@drawable/top" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="480dp"/>
+
+    <TextView android:layout_height="32dp" android:layout_width="297dp" android:id="@+id/age" app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.456" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/imageView4" android:textSize="22sp" android:textColor="#E91E63" android:textAllCaps="false" android:text="①年齢を入力しよう!" app:layout_constraintVertical_bias="0.04"/>
+
+    <ImageView android:layout_height="218dp" android:layout_width="438dp" android:id="@+id/imageView4" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.481" app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="550dp" app:srcCompat="@drawable/bottom" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.729"/>
+
+    <EditText android:layout_height="45dp" android:layout_width="121dp" android:id="@+id/editText" app:layout_constraintTop_toBottomOf="@+id/age" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/gender" android:layout_marginTop="10dp" android:inputType="number" android:ems="10" android:layout_marginRight="230dp" android:layout_marginEnd="230dp" android:layout_marginLeft="60dp" android:layout_marginStart="60dp"/>
+
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/textView2" app:layout_constraintTop_toBottomOf="@+id/age" android:textSize="18sp" android:text="※半角のみ" android:layout_marginTop="15dp" android:layout_marginLeft="30dp" android:layout_marginStart="30dp" app:layout_constraintStart_toEndOf="@+id/editText"/>
+
+    <ImageButton android:layout_height="48dp" android:layout_width="277dp" android:id="@+id/RegistrationButton" app:layout_constraintTop_toBottomOf="@+id/gender" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/imageView4" android:layout_marginTop="60dp" app:srcCompat="@drawable/start" app:layout_constraintVertical_bias="1.0"/>
+
+
+    <RadioGroup android:orientation="horizontal" android:layout_height="48dp" android:layout_width="411dp" android:id="@+id/gender_button" app:layout_constraintTop_toBottomOf="@+id/gender" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/RegistrationButton" android:layout_marginBottom="10dp" app:layout_constraintVertical_bias="1.0" android:layout_marginRight="30dp" android:layout_marginEnd="30dp">
+
+    <RadioButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/Man" app:layout_constraintTop_toBottomOf="@+id/gender" app:layout_constraintStart_toStartOf="parent" android:textSize="22sp" android:text="男性" android:layout_marginTop="16dp" android:layout_marginLeft="20dp" android:layout_marginStart="60dp"/>
+
+    <RadioButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/Women" app:layout_constraintTop_toBottomOf="@+id/gender" android:textSize="22sp" android:text="女性" android:layout_marginTop="16dp" android:layout_marginLeft="20dp" android:layout_marginStart="20dp" app:layout_constraintStart_toEndOf="@+id/Man"/>
+
+    <RadioButton android:layout_height="wrap_content" android:layout_width="136dp" android:id="@+id/Custom" app:layout_constraintTop_toBottomOf="@+id/gender" android:textSize="22sp" android:text="カスタム" android:layout_marginTop="16dp" android:layout_marginLeft="16dp" android:layout_marginStart="16dp" app:layout_constraintStart_toEndOf="@+id/Women"/>
+
+</RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

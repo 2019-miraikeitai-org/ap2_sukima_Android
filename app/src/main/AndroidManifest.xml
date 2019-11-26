@@ -51,6 +51,11 @@
         </activity>
 
         <activity
+            android:name=".user_registration"
+            android:label="Registration"
+            android:screenOrientation="portrait"> </activity>
+
+        <activity
             android:name=".time_layout"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"></activity>
