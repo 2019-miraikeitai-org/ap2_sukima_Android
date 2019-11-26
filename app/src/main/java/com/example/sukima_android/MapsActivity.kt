@@ -64,13 +64,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 
     //LatLang型の配列
-    private val point_new = arrayOfNulls<LatLng>(3)
+    private val point_new = arrayOfNulls<LatLng>(4)
 
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
 
     //サーバーからとってきた値のジャンル
-    private val SER_Genre = arrayOfNulls<String>(3)
+    private val SER_Genre = arrayOfNulls<String>(4)
 
     private val okHttp = OkHttpClient()
         .newBuilder()
@@ -329,7 +329,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
 
                     resp.spots.forEachIndexed { i, v ->
-                        if (i > 2) return@forEachIndexed
+                        if (i > 3) return@forEachIndexed
+
+                        Log.d("as",v.toString())
 
                         val lat = v.position.latitude
                         val lng = v.position.longitude
@@ -411,7 +413,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 2) return@forEachIndexed
+                            if (i > 3) return@forEachIndexed
 
                             val lat = v.position.latitude
                             val lng = v.position.longitude
@@ -458,7 +460,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 2) return@forEachIndexed
+                            if (i > 3) return@forEachIndexed
 
                             val lat = v.position.latitude
                             val lng = v.position.longitude
@@ -500,7 +502,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 2) return@forEachIndexed
+                            if (i > 3) return@forEachIndexed
 
                             val lat = v.position.latitude
                             val lng = v.position.longitude
@@ -541,7 +543,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 2) return@forEachIndexed
+                            if (i > 3) return@forEachIndexed
 
                             val lat = v.position.latitude
                             val lng = v.position.longitude
