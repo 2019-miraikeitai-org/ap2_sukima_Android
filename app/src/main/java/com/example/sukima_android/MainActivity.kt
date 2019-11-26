@@ -13,9 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        start_Button.setOnClickListener {
-            val intent = Intent(this, time_layout::class.java)
-            startActivity(intent)
-        }
+        val test = 1
+
+        if (test == 1) {
+            start_Button.setOnClickListener {
+                val intent = Intent(this, user_registration::class.java)
+                startActivity(intent)
+            }
+        } else
+            start_Button.setOnClickListener {
+                val intent = Intent(this, time_layout::class.java)
+                startActivity(intent)
+            }
     }
 }
