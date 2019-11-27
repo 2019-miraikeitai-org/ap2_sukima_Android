@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_time_layout.*
 
 class time_layout : AppCompatActivity() {
 
-    private val spinnerItems = arrayOf("60", "90", "120", "150", "180")
+    private val spinnerItems = arrayOf("30","40","50","60","70","80","90","100","110", "120")
 
 
 
