@@ -71,6 +71,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
     //サーバーからとってきた値のジャンル
     private val SER_Genre = arrayOfNulls<String>(4)
+    private val SER_Comment = arrayOfNulls<String>(4)
 
     private val okHttp = OkHttpClient()
         .newBuilder()
@@ -315,7 +316,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val PRA_skima_time = "skima_time=" + skima_time.toString()
 
 
-
             ////HitAPITaskを呼び出して、APIをたたく
             //HitAPITask().execute(
             //    "GET",
@@ -335,6 +335,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                         val lat = v.position.latitude
                         val lng = v.position.longitude
+
+                        SER_Comment[i] = v.comment
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
                     }
@@ -350,8 +352,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i]} m")
-                                        .snippet("${distance[i] / 80}分")
+                                        .title("${distance[i] / 80}分"+":${distance[i]} m")
+                                        .snippet("${SER_Comment[i]}")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
@@ -361,8 +363,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i]} m")
-                                        .snippet("${distance[i] / 80}分")
+                                        .title("${distance[i] / 80}分" + ":${distance[i]} m")
+                                        .snippet("${SER_Comment[i]}")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                                 }
                                 )
@@ -372,8 +374,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i]} m")
-                                        .snippet("${distance[i] / 80}分")
+                                        .title("${distance[i] / 80}分"+":${distance[i]} m")
+                                        .snippet("${SER_Comment[i]}")
+
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                                 }
                                 )
@@ -383,8 +386,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i]} m")
-                                        .snippet("${distance[i] / 80}分")
+                                        .title("${distance[i] / 80}分"+ ":${distance[i]} m")
+                                        .snippet("${SER_Comment[i]}")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )
@@ -432,8 +435,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         map.addMarker(point?.let {
                             MarkerOptions()
                                 .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i] / 80}分")
+                                .title("${distance[i]} m"+":${distance[i] / 80}分")
+                                .snippet("${SER_Comment[i]}")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                         }
                         )
@@ -477,8 +480,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             map.addMarker(point?.let {
                                 MarkerOptions()
                                     .position(it)
-                                    .title("${distance[i]} m")
-                                    .snippet("${distance[i] / 80}分")
+                                    .title("${distance[i]} m"+":${distance[i] / 80}分")
+                                    .snippet("${SER_Comment[i]}")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                             }
                             )
@@ -521,8 +524,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         map.addMarker(point?.let {
                             MarkerOptions()
                                 .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i] / 80}分")
+                                .title("${distance[i]} m"+":${distance[i] / 80}分")
+                                .snippet("${SER_Comment[i]}")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
@@ -561,8 +564,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         map.addMarker(point?.let {
                             MarkerOptions()
                                 .position(it)
-                                .title("${distance[i]} m")
-                                .snippet("${distance[i] / 80}分")
+                                .title("${distance[i]} m"+":${distance[i] / 80}分")
+                                .snippet("${SER_Comment[i]}")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                         }
                         )
