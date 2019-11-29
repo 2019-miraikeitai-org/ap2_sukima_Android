@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -49,6 +50,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var kani=20
 
     //現在地を更新していくやつ
     private lateinit var locationCallback: LocationCallback
@@ -127,8 +130,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
         }
-
         createLocationRequest()
+
+        if(kani<5) {
+
+
+            AlertDialog.Builder(this)
+                .setView(layoutInflater.inflate(R.layout.dialog, null))
+                .show()
+        }
+
+
+
+
     }
 
     //位置情報の権限
@@ -357,7 +371,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
-                            Check(distance[i])
+
                         } else if (SER_Genre[i] == Genre[2]) {
                             val marker: Marker =
                                 map.addMarker(point?.let {
@@ -368,7 +382,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                                 }
                                 )
-                            Check(distance[i])
+
                         } else if (SER_Genre[i] == Genre[3]) {
                             val marker: Marker =
                                 map.addMarker(point?.let {
@@ -380,7 +394,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                                 }
                                 )
-                            Check(distance[i])
+
                         } else if (SER_Genre[i] == Genre[4]) {
                             val marker: Marker =
                                 map.addMarker(point?.let {
@@ -391,7 +405,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )
-                            Check(distance[i])
+
                         }
 
 
@@ -440,7 +454,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                         }
                         )
-                    Check(distance[i])
+
                 }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
@@ -485,7 +499,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                             }
                             )
-                            Check(distance[i])
+
                         }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
@@ -529,7 +543,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
-                    Check(distance[i])
+
                 }
             } catch (e: Throwable) {
             Log.e("e", e.toString())
@@ -569,7 +583,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                         }
                         )
-                    Check(distance[i])
                 }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
@@ -592,16 +605,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
     }
 
-    //スポットとの距離が5m以下になったら画面遷移
-    private fun Check(distance: Int) {
-
-        if (distance < 5) {
-            val intent = Intent(this, CheckIn::class.java)
-            startActivity(intent)
-        }
+    fun ikuyo(view: View){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
-
+    fun mata(view: View)
+    {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
