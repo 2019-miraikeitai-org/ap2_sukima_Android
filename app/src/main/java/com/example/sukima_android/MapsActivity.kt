@@ -69,6 +69,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
 
+    private var Distance = 0
+
     //サーバーからとってきた値のジャンル
     private val SER_Genre = arrayOfNulls<String>(4)
     private val SER_Comment = arrayOfNulls<String>(4)
@@ -125,10 +127,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                 lastLocation = p0.lastLocation
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
+                 //Log.d("checkin",lastLocation.latitude.toString())
+             if(point_new[0]!=null){
+                 Distance = computeDistanceBetween(point_new[0],LatLng(lastLocation.latitude, lastLocation.longitude)).toInt()//自分の現在位置とスポットとの距離
+                 if(Distance !=0 && Distance < 10){
+                     Log.d("checkin","checkinOK")
+                 }
+             }
+                Log.d("checkiDist",Distance.toString())
+
             }
         }
 
         createLocationRequest()
+
     }
 
     //位置情報の権限
@@ -281,6 +293,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 map.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
                 currentLatLng(currentLatLng)
+
             }
 
             val seachButton: ImageButton = findViewById(R.id.imageButton)
