@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -69,7 +70,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
 
-    private var Distance = 0
+    //動的な配列でスポットとの距離を格納している
+    private var Distance = IntArray(4)
 
     //サーバーからとってきた値のジャンル
     private val SER_Genre = arrayOfNulls<String>(4)
@@ -128,17 +130,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 lastLocation = p0.lastLocation
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
                  //Log.d("checkin",lastLocation.latitude.toString())
-             if(point_new[0]!=null){
-                 Distance = computeDistanceBetween(point_new[0],LatLng(lastLocation.latitude, lastLocation.longitude)).toInt()//自分の現在位置とスポットとの距離
-                 if(Distance !=0 && Distance < 10){
-                     Log.d("checkin","checkinOK")
-                 }
-             }
-                Log.d("checkiDist",Distance.toString())
+       Distance.forEachIndexed {i,Dist ->
+            if (point_new[i] != null) {
+             Distance[i] = computeDistanceBetween(
+             point_new[i],
+             LatLng(lastLocation.latitude, lastLocation.longitude)
+             ).toInt()//自分の現在位置とスポットとの距離*/
+             if(Distance[i] != 0 && Distance[i] < 10) {
+              Log.d("checkin", "checkinOK")
+               AlertDialog.Builder(this@MapsActivity)
+                .setView(layoutInflater.inflate(R.layout.dialog, null))
+                .show()
 
+               }
+                Log.d("checkiDP",point_new[i].toString())
+                Log.d("checkiDD",Distance[i].toString())
+               }
+             }
             }
         }
-
         createLocationRequest()
 
     }
@@ -357,7 +367,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                     //for文で配列を入れていく
                     point_new.forEachIndexed { i, point ->
                         val LatLngA = LatLng(location.latitude, location.longitude)
-                        Log.d("test", point_new[i].toString())
+                        Log.d("test", point.toString())
                         //現在位置とスポットまでの距離計算
                         distance.add(computeDistanceBetween(LatLngA, point).toInt())
                         if (SER_Genre[i] == Genre[1]) {
@@ -370,7 +380,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
-                            Check(distance[i])
+
                         } else if (SER_Genre[i] == Genre[2]) {
                             val marker: Marker =
                                 map.addMarker(point?.let {
@@ -381,7 +391,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                                 }
                                 )
-                            Check(distance[i])
+
                         } else if (SER_Genre[i] == Genre[3]) {
                             val marker: Marker =
                                 map.addMarker(point?.let {
@@ -393,7 +403,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                                 }
                                 )
-                            Check(distance[i])
+
                         } else if (SER_Genre[i] == Genre[4]) {
                             val marker: Marker =
                                 map.addMarker(point?.let {
@@ -404,7 +414,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )
-                            Check(distance[i])
+
                         }
 
 
@@ -453,7 +463,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                         }
                         )
-                    Check(distance[i])
+
                 }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
@@ -498,7 +508,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                             }
                             )
-                            Check(distance[i])
+
                         }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
@@ -542,7 +552,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
-                    Check(distance[i])
+
                 }
             } catch (e: Throwable) {
             Log.e("e", e.toString())
@@ -582,7 +592,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                         }
                         )
-                    Check(distance[i])
                 }
                     } catch (e: Throwable) {
                         Log.e("e", e.toString())
@@ -605,16 +614,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
     }
 
-    //スポットとの距離が5m以下になったら画面遷移
-    private fun Check(distance: Int) {
-
-        if (distance < 5) {
-            val intent = Intent(this, CheckIn::class.java)
-            startActivity(intent)
-        }
+    fun ikuyo(view: View){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
-
+    fun mata(view: View)
+    {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
