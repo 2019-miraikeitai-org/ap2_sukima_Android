@@ -51,8 +51,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private var kani=20
-
     //現在地を更新していくやつ
     private lateinit var locationCallback: LocationCallback
     //プロパティと位置更新状態プロパティを宣言
@@ -71,6 +69,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
+
+    //動的な配列でスポットとの距離を格納している
+    private var Distance = IntArray(4)
 
     //サーバーからとってきた値のジャンル
     private val SER_Genre = arrayOfNulls<String>(4)
@@ -128,20 +129,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                 lastLocation = p0.lastLocation
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
+                 //Log.d("checkin",lastLocation.latitude.toString())
+       Distance.forEachIndexed {i,Dist ->
+            if (point_new[i] != null) {
+             Distance[i] = computeDistanceBetween(
+             point_new[i],
+             LatLng(lastLocation.latitude, lastLocation.longitude)
+             ).toInt()//自分の現在位置とスポットとの距離*/
+             if(Distance[i] != 0 && Distance[i] < 10) {
+              Log.d("checkin", "checkinOK")
+               AlertDialog.Builder(this@MapsActivity)
+                .setView(layoutInflater.inflate(R.layout.dialog, null))
+                .show()
+
+               }
+                Log.d("checkiDP",point_new[i].toString())
+                Log.d("checkiDD",Distance[i].toString())
+               }
+             }
             }
         }
         createLocationRequest()
-
-        if(kani<5) {
-
-
-            AlertDialog.Builder(this)
-                .setView(layoutInflater.inflate(R.layout.dialog, null))
-                .show()
-        }
-
-
-
 
     }
 
@@ -295,6 +303,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 map.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng))
                 currentLatLng(currentLatLng)
+
             }
 
             val seachButton: ImageButton = findViewById(R.id.imageButton)
@@ -358,7 +367,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                     //for文で配列を入れていく
                     point_new.forEachIndexed { i, point ->
                         val LatLngA = LatLng(location.latitude, location.longitude)
-                        Log.d("test", point_new[i].toString())
+                        Log.d("test", point.toString())
                         //現在位置とスポットまでの距離計算
                         distance.add(computeDistanceBetween(LatLngA, point).toInt())
                         if (SER_Genre[i] == Genre[1]) {
