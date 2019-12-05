@@ -65,7 +65,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
 
     //LatLang型の配列
-    private val point_new = arrayOfNulls<LatLng>(4)
+    private val POINT_new = arrayOfNulls<LatLng>(4)
 
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
@@ -131,9 +131,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
                  //Log.d("checkin",lastLocation.latitude.toString())
        Distance.forEachIndexed {i,Dist ->
-            if (point_new[i] != null) {
+            if (POINT_new[i] != null) {
              Distance[i] = computeDistanceBetween(
-             point_new[i],
+             POINT_new[i],
              LatLng(lastLocation.latitude, lastLocation.longitude)
              ).toInt()//自分の現在位置とスポットとの距離*/
              if(Distance[i] != 0 && Distance[i] < 10) {
@@ -143,7 +143,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 .show()
 
                }
-                Log.d("checkiDP",point_new[i].toString())
+                Log.d("checkiDP",POINT_new[i].toString())
                 Log.d("checkiDD",Distance[i].toString())
                }
              }
@@ -338,6 +338,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val PRA_Curlongitude = location.longitude//現在地
             val PRA_skima_time = "skima_time=" + skima_time.toString()
 
+            val point_new = arrayOfNulls<LatLng>(4)
 
             ////HitAPITaskを呼び出して、APIをたたく
             //HitAPITask().execute(
@@ -348,12 +349,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             launch {
                 try{
+
+
                     val resp =
                         client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
 
                     resp.spots.forEachIndexed { i, v ->
-                        if (i > 3) return@forEachIndexed
+                        if (i > (resp.spots.size)-1) return@forEachIndexed
 
+                        Log.d("size",((resp.spots.size) -1 ).toString())
                         Log.d("as",v.toString())
 
                         val lat = v.position.latitude
@@ -362,6 +366,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         SER_Comment[i] = v.comment
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
+                        POINT_new[i] = point_new[i]
                     }
                     val distance: MutableList<Int> = mutableListOf()
                     //for文で配列を入れていく
@@ -430,6 +435,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             //以下ジャンルにボタンを押したときの処理
             Button01.setOnClickListener {
                 val PRA_genre = Genre[1]//eat
+                val point_new = arrayOfNulls<LatLng>(4)
 
                 map.clear()
 
@@ -439,12 +445,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 3) return@forEachIndexed
+                            if (i > (resp.spots.size)-1) return@forEachIndexed
+                            Log.d("size1", ((resp.spots.size)-1).toString())
 
                             val lat = v.position.latitude
                             val lng = v.position.longitude
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
+                            POINT_new[i] = point_new[i]
                         }
 
                 val distance: MutableList<Int> = mutableListOf()
@@ -473,6 +481,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             Button02.setOnClickListener {
                 val PRA_genre = Genre[2]//relax
+                val point_new = arrayOfNulls<LatLng>(4)
+
                 map.clear()
 
                 //HitAPITask().execute(
@@ -486,12 +496,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 3) return@forEachIndexed
+                            if (i > (resp.spots.size)-1) return@forEachIndexed
+                            Log.d("size2", ((resp.spots.size)-1).toString())
 
                             val lat = v.position.latitude
                             val lng = v.position.longitude
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
+                            POINT_new[i] = point_new[i]
                         }
                         val distance: MutableList<Int> = mutableListOf()
                         //for文で配列を入れていく
@@ -519,6 +531,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             }
             Button03.setOnClickListener {
                 val PRA_genre = Genre[3]//play
+                val point_new = arrayOfNulls<LatLng>(4)
 
                 map.clear()
 
@@ -528,12 +541,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 3) return@forEachIndexed
-
+                            if (i > (resp.spots.size)-1) return@forEachIndexed
+                            Log.d("size3", ((resp.spots.size)-1).toString())
                             val lat = v.position.latitude
                             val lng = v.position.longitude
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
+                            POINT_new[i] = point_new[i]
                         }
 
                 val distance: MutableList<Int> = mutableListOf()
@@ -561,6 +575,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             }
             Button04.setOnClickListener {
                 val PRA_genre = Genre[4]//stroll
+                val point_new = arrayOfNulls<LatLng>(4)
+
                 map.clear()
 
                 launch {
@@ -569,12 +585,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
-                            if (i > 3) return@forEachIndexed
-
+                            if (i > (resp.spots.size)-1) return@forEachIndexed
+                            Log.d("size4", ((resp.spots.size)-1).toString())
                             val lat = v.position.latitude
                             val lng = v.position.longitude
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
+                            POINT_new[i] = point_new[i]
                         }
                 val distance: MutableList<Int> = mutableListOf()
                 //for文で配列を入れていく
