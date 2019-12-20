@@ -2,6 +2,7 @@ package com.example.sukima_android
 
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -339,6 +340,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val PRA_skima_time = "skima_time=" + skima_time.toString()
 
             val point_new = arrayOfNulls<LatLng>(4)
+
+            val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
+            var dataInt = data.getInt("DataInt",0)
+
+            Log.d("data",dataInt.toString())
 
             ////HitAPITaskを呼び出して、APIをたたく
             //HitAPITask().execute(

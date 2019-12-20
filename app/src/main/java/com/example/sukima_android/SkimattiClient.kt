@@ -1,8 +1,9 @@
 package com.example.sukima_android
 
 import com.example.sukima_android.model.Spots
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.example.sukima_android.model.User
+import com.example.sukima_android.model.post_user
+import retrofit2.http.*
 
 interface SkimattiClient {
     @GET("/spots")
@@ -12,4 +13,10 @@ interface SkimattiClient {
         @Query("longitude") longitude: Double,
         @Query("genre") genre: String? = null
     ): Spots
+
+    @Headers("Content-Type: application/json")
+    @POST("/users")
+     suspend fun postUser(
+    @Body postUser: post_user
+    ):User
 }
