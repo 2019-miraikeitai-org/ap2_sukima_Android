@@ -16,11 +16,12 @@
     tools:context=".MapsActivity" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        >
+        map:layoutDescription="@xml/motion_fab"
+        tools:context=".MainActivity">
 
         <include
             android:id="@+id/include_2"
@@ -49,8 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="855dp"
-            android:contentDescription="TODO"
             android:background="@null"
+            android:contentDescription="TODO"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent"
             map:layout_constraintHorizontal_bias="0.0"
@@ -59,21 +60,6 @@
             map:layout_constraintVertical_bias="0.496"
             map:srcCompat="@drawable/sukimachi_under" />
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="103dp"
-            android:layout_height="102dp"
-            android:layout_marginTop="650dp"
-            android:layout_marginEnd="250dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="230dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:srcCompat="@drawable/search" />
 
         <TextView
             android:id="@+id/textView"
@@ -115,100 +101,61 @@
             map:layout_constraintTop_toBottomOf="@+id/textView"
             map:layout_constraintVertical_bias="0.014" />
 
+
         <ImageButton
-            android:id="@+id/imageButton01"
-            android:layout_width="63dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="530dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="230dp"
+            android:id="@+id/imageButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="32dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:visibility="invisible"
+            android:src="@drawable/search"
             map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="0.116"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.736"
-            map:srcCompat="@drawable/eat" />
+            map:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton01"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/eat" />
 
         <ImageButton
             android:id="@+id/imageButton02"
-            android:layout_width="63dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="530dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="230dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:visibility="invisible"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="0.427"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.681"
-            map:srcCompat="@drawable/mattari" />
+            android:src="@drawable/mattari" />
 
         <ImageButton
             android:id="@+id/imageButton03"
-            android:layout_width="63dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="530dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="230dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:visibility="invisible"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="0.588"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.329"
-            map:srcCompat="@drawable/asobu" />
+            android:src="@drawable/asobu" />
 
         <ImageButton
             android:id="@+id/imageButton04"
-            android:layout_width="63dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="530dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="230dp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:visibility="invisible"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="0.588"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.0"
-            map:srcCompat="@drawable/burabura" />
-
-        <ImageButton
-            android:id="@+id/closeButton"
-            android:layout_width="103dp"
-            android:layout_height="102dp"
-            android:layout_marginTop="650dp"
-            android:layout_marginEnd="250dp"
-            android:layout_marginRight="250dp"
-            android:layout_marginBottom="230dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            android:text="toastの表示"
-            android:visibility="invisible"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="0.55"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:srcCompat="@drawable/batu" />
+            android:src="@drawable/burabura" />
 
         <ImageButton
             android:id="@+id/current_btn"
@@ -236,7 +183,7 @@
             map:srcCompat="@drawable/puramai" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
 
 </FrameLayout>

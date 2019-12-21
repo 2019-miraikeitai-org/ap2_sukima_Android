@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -45,7 +46,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     CoroutineScope {
 
     override fun onMarkerClick(p0: Marker?) = false
-
 
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
@@ -311,22 +311,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val Button02: ImageButton = findViewById(R.id.imageButton02)
             val Button03: ImageButton = findViewById(R.id.imageButton03)
             val Button04: ImageButton = findViewById(R.id.imageButton04)
-            val closeButton: ImageButton = findViewById(R.id.closeButton)
-            seachButton.setOnClickListener {
-                seachButton.visibility = View.INVISIBLE
-                Button01.visibility = View.VISIBLE
-                Button02.visibility = View.VISIBLE
-                Button03.visibility = View.VISIBLE
-                Button04.visibility = View.VISIBLE
-                closeButton.visibility = View.VISIBLE
+
+
+
+            Button01.setOnClickListener {
+                Toast.makeText(this, "食べたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
             }
-            closeButton.setOnClickListener {
-                seachButton.visibility = View.VISIBLE
-                Button01.visibility = View.INVISIBLE
-                Button02.visibility = View.INVISIBLE
-                Button03.visibility = View.INVISIBLE
-                Button04.visibility = View.INVISIBLE
-                closeButton.visibility = View.INVISIBLE
+            Button02.setOnClickListener {
+                Toast.makeText(this, "まったりしたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
+            }
+            Button03.setOnClickListener {
+                Toast.makeText(this, "あそびたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
+            }
+            Button04.setOnClickListener {
+                Toast.makeText(this, "ぶらぶらしたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
             }
 
             //Http通信
