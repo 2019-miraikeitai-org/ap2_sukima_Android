@@ -350,8 +350,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             launch {
                 try{
 
+                    point_new[0] = LatLng(41.787717 , 140.752044)
+                    POINT_new[0] = point_new[0]
 
-                    val resp =
+                   /* val resp =
                         client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
 
                     resp.spots.forEachIndexed { i, v ->
@@ -367,7 +369,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
                         POINT_new[i] = point_new[i]
-                    }
+                    },k
+
+                    */
                     val distance: MutableList<Int> = mutableListOf()
                     //for文で配列を入れていく
                     point_new.forEachIndexed { i, point ->
