@@ -110,8 +110,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/asobu"
-            motion:layout_constraintBottom_toTopOf="@id/imageButton04"
-            motion:layout_constraintStart_toStartOf="@+id/imageButton04" />
+            motion:layout_constraintBottom_toTopOf="@id/imageButton01"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton01" />
 
         <Constraint
             android:id="@id/imageButton04"
@@ -121,8 +121,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/burabura"
-            motion:layout_constraintBottom_toTopOf="@+id/imageButton01"
-            motion:layout_constraintStart_toStartOf="@id/imageButton01" />
+            motion:layout_constraintBottom_toTopOf="@+id/imageButton"
+            motion:layout_constraintStart_toStartOf="@id/imageButton" />
 
     </ConstraintSet>
 
