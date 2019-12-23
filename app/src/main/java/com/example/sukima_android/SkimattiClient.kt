@@ -11,6 +11,7 @@ interface SkimattiClient {
         @Query("skima_time") skimaTime: String,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
+        @Query("user_id")user_id:Int,
         @Query("genre") genre: String? = null
     ): Spots
 
