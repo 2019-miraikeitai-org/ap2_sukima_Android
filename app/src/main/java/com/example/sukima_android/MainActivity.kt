@@ -1,8 +1,8 @@
 package com.example.sukima_android
 
 import android.content.Context
-import android.os.Bundle
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         if (test == 1) {
             start_Button.setOnClickListener {
-                val intent = Intent(this, user_registration::class.java)
+                val intent = Intent(this, TermsOfService::class.java)
                 startActivity(intent)
             }
         } else
