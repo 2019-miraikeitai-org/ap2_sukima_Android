@@ -2,6 +2,7 @@ package com.example.sukima_android
 
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -323,11 +324,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             val point_new = arrayOfNulls<LatLng>(4)
 
+            val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
+            var dataInt = data.getInt("DataInt",0)
+
+            var user_id = dataInt
+
+            Log.d("data",dataInt.toString())
+
+
             launch {
                 try{
 
                     val resp =
-                        client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
+                        client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude,user_id)
 
                     resp.spots.forEachIndexed { i, v ->
                         if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -421,7 +430,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -474,7 +483,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -520,7 +529,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -566,7 +575,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
