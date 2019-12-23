@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    xmlns:motion="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools">
 
 
     <Transition
@@ -78,6 +79,30 @@
 
     <ConstraintSet android:id="@+id/end">
 
+        <Constraint
+            android:id="@+id/imageView4"
+            android:layout_width="620dp"
+            android:layout_height="913dp"
+            android:visibility="visible"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.502"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:srcCompat="@drawable/overlay"
+            />
+
+        <Constraint
+            android:id="@+id/closeButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="32dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            android:src="@drawable/batu"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintStart_toStartOf="parent" />
 
         <Constraint
             android:id="@id/imageButton01"

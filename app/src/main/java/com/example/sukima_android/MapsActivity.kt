@@ -306,30 +306,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             }
 
-            val seachButton: ImageButton = findViewById(R.id.imageButton)
             val Button01: ImageButton = findViewById(R.id.imageButton01)
             val Button02: ImageButton = findViewById(R.id.imageButton02)
             val Button03: ImageButton = findViewById(R.id.imageButton03)
             val Button04: ImageButton = findViewById(R.id.imageButton04)
 
-
-
-            Button01.setOnClickListener {
-                Toast.makeText(this, "食べたい", Toast.LENGTH_SHORT).show()
-                motion_layout.transitionToStart()
-            }
-            Button02.setOnClickListener {
-                Toast.makeText(this, "まったりしたい", Toast.LENGTH_SHORT).show()
-                motion_layout.transitionToStart()
-            }
-            Button03.setOnClickListener {
-                Toast.makeText(this, "あそびたい", Toast.LENGTH_SHORT).show()
-                motion_layout.transitionToStart()
-            }
-            Button04.setOnClickListener {
-                Toast.makeText(this, "ぶらぶらしたい", Toast.LENGTH_SHORT).show()
-                motion_layout.transitionToStart()
-            }
 
             //Http通信
             //Urlにくっつけるパラメータの設定
@@ -432,7 +413,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 }
             }
 
-
+            closeButton.setOnClickListener {
+                imageButton.visibility = View.VISIBLE
+                closeButton.visibility = View.INVISIBLE
+                motion_layout.transitionToStart()
+            }
 
             //以下ジャンルにボタンを押したときの処理
             Button01.setOnClickListener {
@@ -479,6 +464,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         Log.e("e", e.toString())
                     }
                 }
+                Toast.makeText(this, "食べたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
             }
 
             Button02.setOnClickListener {
@@ -528,9 +515,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         Log.e("e", e.toString())
                     }
                 }
-
-                //緯度経度を取得するまで待つ
+                Toast.makeText(this, "まったりしたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
             }
+
             Button03.setOnClickListener {
                 val PRA_genre = Genre[3]//play
                 val point_new = arrayOfNulls<LatLng>(4)
@@ -568,13 +556,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
-
                 }
-            } catch (e: Throwable) {
-            Log.e("e", e.toString())
-        }
-        }
+                    } catch (e: Throwable) {
+                        Log.e("e", e.toString())
+                    }
+                }
+                Toast.makeText(this, "あそびたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
             }
+
             Button04.setOnClickListener {
                 val PRA_genre = Genre[4]//stroll
                 val point_new = arrayOfNulls<LatLng>(4)
@@ -616,10 +606,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         Log.e("e", e.toString())
                     }
                 }
+                Toast.makeText(this, "ぶらぶらしたい", Toast.LENGTH_SHORT).show()
+                motion_layout.transitionToStart()
             }
-//以上ジャンルボタンを押したときの処理
-
-
         }
 
 

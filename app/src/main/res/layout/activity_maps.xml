@@ -101,6 +101,43 @@
             map:layout_constraintTop_toBottomOf="@+id/textView"
             map:layout_constraintVertical_bias="0.014" />
 
+        <ImageButton
+            android:id="@+id/current_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="1.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.082"
+            map:srcCompat="@drawable/genzaichi" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="66dp"
+            android:layout_height="112dp"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="1.0"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:layout_constraintVertical_bias="0.998"
+            map:srcCompat="@drawable/puramai" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="620dp"
+            android:layout_height="913dp"
+            android:visibility="invisible"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.502"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:srcCompat="@drawable/overlay" />
+
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -110,6 +147,18 @@
             android:background="@null"
             android:scaleType="fitXY"
             android:src="@drawable/search"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/closeButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="32dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            android:src="@drawable/batu"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintStart_toStartOf="parent" />
 
@@ -156,31 +205,6 @@
             android:background="@null"
             android:scaleType="fitXY"
             android:src="@drawable/burabura" />
-
-        <ImageButton
-            android:id="@+id/current_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="1.0"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.082"
-            map:srcCompat="@drawable/genzaichi" />
-
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="66dp"
-            android:layout_height="112dp"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="1.0"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.998"
-            map:srcCompat="@drawable/puramai" />
 
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
