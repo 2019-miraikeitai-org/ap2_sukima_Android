@@ -323,16 +323,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             val point_new = arrayOfNulls<LatLng>(4)
 
-            ////HitAPITaskを呼び出して、APIをたたく
-            //HitAPITask().execute(
-            //    "GET",
-            //    "http://160.16.103.99/spots" + "?" + PRA_skima_time + "&latitude=" + PRA_Curlatitude + "&longitude=" + PRA_Curlongitude
-            //)
-            //Thread.sleep(10000)
-
             launch {
                 try{
-
 
                     val resp =
                         client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
