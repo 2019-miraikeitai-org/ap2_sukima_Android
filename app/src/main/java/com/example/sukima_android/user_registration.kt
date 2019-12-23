@@ -1,17 +1,17 @@
 package com.example.sukima_android
 
 import android.content.Context
-import android.os.Bundle
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.user_registration.*
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.example.sukima_android.model.post_user
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.android.synthetic.main.user_registration.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
