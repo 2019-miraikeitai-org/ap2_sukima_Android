@@ -2,6 +2,7 @@ package com.example.sukima_android
 
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -340,21 +341,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             val point_new = arrayOfNulls<LatLng>(4)
 
-            ////HitAPITaskを呼び出して、APIをたたく
-            //HitAPITask().execute(
-            //    "GET",
-            //    "http://160.16.103.99/spots" + "?" + PRA_skima_time + "&latitude=" + PRA_Curlatitude + "&longitude=" + PRA_Curlongitude
-            //)
-            //Thread.sleep(10000)
+            val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
+            var dataInt = data.getInt("DataInt",0)
+
+            var user_id = dataInt
+
+            Log.d("data",dataInt.toString())
 
             launch {
                 try{
 
-                    point_new[0] = LatLng(41.787717 , 140.752044)
-                    POINT_new[0] = point_new[0]
-
-                   /* val resp =
-                        client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude)
+                    val resp =
+                        client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude,user_id)
+                    Log.d("userId",resp.toString())
 
                     resp.spots.forEachIndexed { i, v ->
                         if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -369,9 +368,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
                         POINT_new[i] = point_new[i]
-                    },k
+                    }
 
-                    */
+
                     val distance: MutableList<Int> = mutableListOf()
                     //for文で配列を入れていく
                     point_new.forEachIndexed { i, point ->
@@ -446,7 +445,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -497,7 +496,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -542,7 +541,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -586,7 +585,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                 launch {
                     try {
                         val resp =
-                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, PRA_genre)
+                            client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude, user_id, PRA_genre)
 
                         resp.spots.forEachIndexed { i, v ->
                             if (i > (resp.spots.size)-1) return@forEachIndexed
