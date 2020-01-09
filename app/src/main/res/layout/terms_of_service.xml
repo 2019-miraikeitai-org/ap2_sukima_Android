@@ -32,14 +32,15 @@
         app:layout_constraintTop_toBottomOf="@+id/include_1"
         app:srcCompat="@drawable/bottom" />
 
+
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="260dp"
-        android:layout_height="269dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/nextButton"
+        android:layout_width="317dp"
+        android:layout_height="270dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include_1"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -50,38 +51,26 @@
 
             <TextView
                 android:id="@+id/text_view"
+                android:gravity="left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 本規約
-Nianticへようこそ。当社は、モバイルゲームアプリケーション（以下「本アプリ」といいます。）を含む、現実世界の拡張現実（AR）モバイル体験を公開し、現実世界の拡張現実（AR）プラットフォーム（以下「本プラットフォーム」といいます。）を運営しています。本Nianticサービス利用規約及び適用ある本アプリのガイドライン（以下「本ガイドライン」といい、これらを総称して「本規約」といいます。）は、お客様による本アプリ及び本プラットフォームの利用に適用があるものですので、これらをよくお読みください。また、本規約は、当社が所有又は運営するすべてのウェブサイト（以下「本サイト」といいます。）でのお客様のやり取り、Nianticの商品の購入、Nianticのライブイベント又はプロモーション（以下「本イベント」といいます。）への参加、及び、より一般的には、お客様のNianticの製品又はサービス（以下、本アプリ及び本プラットフォームと併せて、「本サービス」といいます。）の利用に適用されます。
-
-お客様の居住国によっては、本規約について一部例外が適用される場合がありますので、下記の各国固有の項目をよくお読みください。
-
-お客様の居住国が米国である場合、本規約は、お客様とNiantic, Inc.（アメリカ合衆国、カリフォルニア州94111、サンフランシスコ、ワン・フェリービルディング　スイート 200）との間で締結されます。お客様の居住国が米国以外である場合、本規約は、お客様と、英国法に基づき事業を行う登録を受けた会社であるNiantic International Limitedとの間で締結されます。Niantic, Inc.及びNiantic International Limitedは、本規約において「Niantic」又は「当社」と総称されます。
-
-お客様は、本サービスを利用することにより、本規約に同意することになります。お客様が本規約に同意しない場合は、本サービスを利用することはできません。Nianticはいつでも本規約を修正することができ、修正を行った場合、本サイト又は本アプリに修正後の本規約を掲載することにより、お客様にお知らせします。お客様が本サービスを利用し続ける前に、修正後の本規約を再度確認していただくことが重要です。お客様が本サービスの利用を継続した場合、修正後の本規約に拘束されます。お客様が修正後の本規約に拘束されることに同意しない場合は、本サービスを利用することはできません。
-
-第13項「紛争解決」には、お客様の法的権利に影響を及ぼす拘束力のある仲裁合意及び集団訴訟の放棄が含まれます。お客様が欧州経済領域（以下「EEA」といいます。）又は当該仲裁合意を認めないその他の国におけるユーザーである場合、第13項は適用されません。
-
-お客様が本規約に違反した場合、当社は、お客様に対して何らかの措置をとることができます（お客様のアカウントの削除を含みますが、これに限定されません。）。お客様は、お客様のアカウントをNianticが強制停止又は削除したことに起因する本サービスに係る損失の補償又は返金について一切の義務を負わず、これに応じないことを確認するものとします。
-
-2 プライバシー
-当社の本サービスは、お客様が、現実世界の情報と融合されたゲーム上のシェアード・ワールドでの交流ができるように設計されています。本サービスを提供するため、当社はお客様に関する情報を必要とし、法的根拠がある場合に限り、お客様の情報を使用します。当社がいかなる情報を収集するか、当社が当該情報をどのように利用するか、又は、お客様が本サービスを利用する際にいかなる選択肢があるかについて、お客様にご理解いただく一助として、当社のプライバシーポリシーをご参照ください。"/>
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="利用規約に同意します"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.648" />
-
+                android:text="@string/sample_text"/>
 
         </LinearLayout>
     </ScrollView>
 
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="利用規約に同意します"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.319"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.758" />
 
     <Button
         android:id="@+id/nextButton"
@@ -90,6 +79,7 @@ Nianticへようこそ。当社は、モバイルゲームアプリケーショ�
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="88dp"
         android:background="@drawable/button_layout"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
@@ -102,9 +92,7 @@ Nianticへようこそ。当社は、モバイルゲームアプリケーショ�
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include_1"
-        app:layout_constraintVertical_bias="0.66" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView5"

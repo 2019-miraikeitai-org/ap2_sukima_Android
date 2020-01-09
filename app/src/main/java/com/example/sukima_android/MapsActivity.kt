@@ -112,10 +112,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
         //fused location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        time.setOnClickListener {
+            val intent = Intent(this, time_layout::class.java)
+            startActivity(intent)
+        }
+
+        menue.setOnClickListener {
+            val intent = Intent(this, menue::class.java)
+            startActivity(intent)
+        }
 
 
         //画面遷移の時に、time_layoutから受け取る引数
@@ -130,7 +141,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                 lastLocation = p0.lastLocation
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
-                 //Log.d("checkin",lastLocation.latitude.toString())
+                //Log.d("checkin",lastLocation.latitude.toString())
+
        Distance.forEachIndexed {i,Dist ->
             if (POINT_new[i] != null) {
              Distance[i] = computeDistanceBetween(
@@ -150,6 +162,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
              }
             }
         }
+
         createLocationRequest()
 
     }

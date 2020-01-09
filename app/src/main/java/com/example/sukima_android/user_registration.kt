@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sukima_android.model.post_user
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -49,58 +50,67 @@ class user_registration : AppCompatActivity() , CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_registration)
 
+        var Age = findViewById(R.id.editText) as EditText // 入力した年齢を変数に格納
+
+        RegistrationButton.setOnClickListener {
 
 
-    RegistrationButton.setOnClickListener {
+            if (Man.isChecked == true || Women.isChecked == true || Custom.isChecked == true) {
+                launch {
+                    try {
 
+                        var age: Int = 0
+                        var gender: String = ""
 
+                        //　年齢が入力されたときの処理
+                        if (editText.text.isNotEmpty()) {
 
-        if(Man.isChecked == true || Women.isChecked == true || Custom.isChecked == true) {
-        launch {
-            try {
+                            age = parseInt(Age.text.toString())
+                        }
 
+                        // ラジオボタンが押されたときの処理
+                        when {
+                            Man.isChecked == true -> {
+                                gender = "man"
+                            }
+                            Women.isChecked == true -> {
+                                gender = "woman"
+                            }
+                            Custom.isChecked == true -> {
+                                gender = "custom"
+                            }
+                        }
 
-                var age: Int = 0
-                var gender: String = ""
+                        Log.d("resp", age.toString())
+                        Log.d("resp", gender.toString())
 
-                //　年齢が入力されたときの処理
-                if (editText.text != null) {
-                    var Age = findViewById(R.id.editText) as EditText // 入力した年齢を変数に格納
-                    age = parseInt(Age.text.toString())
+                        val postdata = post_user(age, gender)
+                        val resp = client.postUser(postdata)
+
+                        Log.d("resp", resp.toString())
+
+                        val data: SharedPreferences =
+                            getSharedPreferences("Data", Context.MODE_PRIVATE)
+                        val editor = data.edit()
+                        editor.putInt("DataInt", resp.user_id)
+                        editor.apply()
+
+                    } catch (e: Throwable) {
+                        Log.e("resp", e.toString())
+                    }
                 }
 
-                // ラジオボタンが押されたときの処理
-                if (Man.isChecked == true) {
-                    gender = "man"
-                } else if (Women.isChecked == true) {
-                    gender = "woman"
-                } else if (Custom.isChecked == true) {
-                    gender = "custom"
+                if(editText.text.isNotEmpty()) {
+                    val intent = Intent(this, time_layout::class.java)
+                    startActivity(intent)
                 }
 
-                Log.d("resp", age.toString())
-                Log.d("resp", gender.toString())
+            } else if (Man.isChecked == false && Women.isChecked == false && Custom.isChecked == false) {
+                Toast.makeText(this, "性別を選択しよう！", Toast.LENGTH_SHORT).show()
 
-                val postdata = post_user(age,gender)
-                val resp = client.postUser(postdata)
-
-                Log.d("resp", resp.toString())
-
-                val data: SharedPreferences = getSharedPreferences("Data", Context.MODE_PRIVATE)
-                val editor = data.edit()
-                editor.putInt("DataInt", resp.user_id)
-                editor.apply()
-
-            } catch (e: Throwable) {
-                Log.e("resp", e.toString())
+            }else if(editText.text.isEmpty()){
+                Toast.makeText(this, "年齢を入力しよう！", Toast.LENGTH_SHORT).show()
             }
         }
-
-        val intent = Intent(this, time_layout::class.java)
-        startActivity(intent)
-
-
-    }
-}
     }
 }

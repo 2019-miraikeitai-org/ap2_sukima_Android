@@ -38,7 +38,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAfWtPgHE9laRceRKHdMwc-EHBT-9H6fsA" />
+            android:value="AIzaSyBJY5b6zvM_JTYsFHDp3qaNf1YpWxIkrtk" />
 
         <activity
             android:name=".MainActivity"
@@ -67,6 +67,11 @@
 
         <activity
             android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".menue"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"></activity>
 
