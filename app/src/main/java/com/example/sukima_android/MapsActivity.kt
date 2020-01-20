@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.sukima_android.model.visited_data
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -64,9 +65,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         private const val REQUEST_CHECK_SETTINGS = 2
     }
 
+    //visitedのポストを1回のみ行うためのフラグ
+    private var VFlag = false
+
+    private var PointNum = 0
+
 
     //LatLang型の配列
     private val POINT_new = arrayOfNulls<LatLng>(4)
+    //visited型の配列
+    private val VisitData = arrayOfNulls<visited_data>(4)
 
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
@@ -138,11 +146,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
              LatLng(lastLocation.latitude, lastLocation.longitude)
              ).toInt()//自分の現在位置とスポットとの距離*/
              if(Distance[i] != 0 && Distance[i] < 10) {
-              Log.d("checkin", "checkinOK")
-               AlertDialog.Builder(this@MapsActivity)
-                .setView(layoutInflater.inflate(R.layout.dialog, null))
-                .show()
+                 if(VFlag == false) {
 
+                     Log.d("checkin", "checkinOK")
+                     AlertDialog.Builder(this@MapsActivity)
+                         .setView(layoutInflater.inflate(R.layout.dialog, null))
+                         .show()
+
+                     PointNum = i
+                     VFlag = true
+
+                 }
                }
                 Log.d("checkiDP",POINT_new[i].toString())
                 Log.d("checkiDD",Distance[i].toString())
@@ -324,12 +338,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
             val point_new = arrayOfNulls<LatLng>(4)
 
-            val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
-            var dataInt = data.getInt("DataInt",0)
-
-            var user_id = dataInt
-
-            Log.d("data",dataInt.toString())
+             val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
+             var dataInt = data.getInt("DataInt",0)
+             var user_id = dataInt
 
 
             launch {
@@ -351,6 +362,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
                         POINT_new[i] = point_new[i]
+
+
+                        //スポットIDとセッションIDの格納
+                        val spot_id = v.spot_id
+                        val session_id = resp.session_id
+                        VisitData[i] = visited_data(spot_id,session_id)
+
                     }
                     val distance: MutableList<Int> = mutableListOf()
                     //for文で配列を入れていく
@@ -436,11 +454,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             if (i > (resp.spots.size)-1) return@forEachIndexed
                             Log.d("size1", ((resp.spots.size)-1).toString())
 
+                            //スポットのジャンルと座標の格納
                             val lat = v.position.latitude
                             val lng = v.position.longitude
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+
+                            //スポットIDとセッションIDの格納
+                            val spot_id = v.spot_id
+                            val session_id = resp.session_id
+                            VisitData[i] = visited_data(spot_id,session_id)
                         }
 
                 val distance: MutableList<Int> = mutableListOf()
@@ -494,6 +518,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+
+                            //スポットIDとセッションIDの格納
+                            val spot_id = v.spot_id
+                            val session_id = resp.session_id
+                            VisitData[i] = visited_data(spot_id,session_id)
+
+
                         }
                         val distance: MutableList<Int> = mutableListOf()
                         //for文で配列を入れていく
@@ -539,6 +570,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+
+
+                            //スポットIDとセッションIDの格納
+                            val spot_id = v.spot_id
+                            val session_id = resp.session_id
+                            VisitData[i] = visited_data(spot_id,session_id)
+
+
                         }
 
                 val distance: MutableList<Int> = mutableListOf()
@@ -585,6 +624,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+
+                            //スポットIDとセッションIDの格納
+                            val spot_id = v.spot_id
+                            val session_id = resp.session_id
+                            VisitData[i] = visited_data(spot_id,session_id)
+
+
                         }
                 val distance: MutableList<Int> = mutableListOf()
                 //for文で配列を入れていく
@@ -623,9 +669,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
     }
 
-    fun ikuyo(view: View){
+    fun ikuyo(view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+
+         val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
+         var dataInt = data.getInt("DataInt",0)
+         var user_id = dataInt
+
+       launch {
+            try {
+                Log.d("tryX",VisitData[PointNum].toString())
+                val resp =
+                    client.postVisited(user_id, VisitData[PointNum])
+
+                Log.d("tryX",resp.toString())
+
+            } catch (e: Throwable) {
+                Log.e("e", e.toString())
+            }
+        }
+
+        VFlag = false
+
     }
 
     fun mata(view: View)
