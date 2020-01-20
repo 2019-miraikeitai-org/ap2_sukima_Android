@@ -348,6 +348,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                     val resp =
                         client.getSpot(skima_time, PRA_Curlatitude, PRA_Curlongitude,user_id)
+                    Log.d("userId",resp.toString())
 
                     resp.spots.forEachIndexed { i, v ->
                         if (i > (resp.spots.size)-1) return@forEachIndexed
@@ -370,6 +371,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         VisitData[i] = visited_data(spot_id,session_id)
 
                     }
+
+
                     val distance: MutableList<Int> = mutableListOf()
                     //for文で配列を入れていく
                     point_new.forEachIndexed { i, point ->
