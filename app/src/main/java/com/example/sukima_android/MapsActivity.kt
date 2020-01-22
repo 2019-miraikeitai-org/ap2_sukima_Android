@@ -124,7 +124,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         }
 
         menue.setOnClickListener {
-            val intent = Intent(this, menue::class.java)
+            val intent = Intent(this, MenueList::class.java)
             startActivity(intent)
         }
 
@@ -381,7 +381,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     MarkerOptions()
                                         .position(it)
                                         .title("${distance[i] / 80}分"+":${distance[i]} m")
-                                        .snippet("${SER_Comment[i]}")
+                                       // .snippet("${SER_Comment[i]}")
+                                        .snippet("こちらの閻魔大王様は自分が悩んでいるジャンルの穴にお金を入れると１分ぐらいありがたいお話をしてくれます")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
@@ -415,7 +416,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     MarkerOptions()
                                         .position(it)
                                         .title("${distance[i] / 80}分"+ ":${distance[i]} m")
-                                        .snippet("${SER_Comment[i]}")
+                                        //.snippet("${SER_Comment[i]}")
+                                        .snippet("こちらの閻魔大王様は自分が悩んでいるジャンルの穴にお金を入れると１分ぐらいありがたいお話をしてくれます")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )

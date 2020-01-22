@@ -66,12 +66,36 @@
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"
+            android:name=".MenueList"
+            android:label="すきまっちについて"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Terms"
+            android:label="利用規約"
+            android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".menue"
+            android:name=".Privacy"
+            android:label="プライバシーポリシー"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Description"
+            android:label="すきまっちとは"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Help"
+            android:label="ヘルプ"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"></activity>
 

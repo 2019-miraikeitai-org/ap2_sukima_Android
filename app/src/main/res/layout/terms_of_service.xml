@@ -34,7 +34,7 @@
 
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollView1"
         android:layout_width="317dp"
         android:layout_height="270dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView5"
@@ -46,15 +46,15 @@
         <LinearLayout
             android:id="@+id/LinearLayout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_view"
-                android:gravity="left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sample_text"/>
+                android:gravity="left"
+                android:text="@string/sample_text" />
 
         </LinearLayout>
     </ScrollView>
@@ -74,7 +74,7 @@
 
     <Button
         android:id="@+id/nextButton"
-        android:layout_width="259dp"
+        android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
@@ -98,14 +98,16 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
         android:text="すきまっち利用規約"
         android:textColor="#000000"
+        android:textSize="18dp"
         android:textStyle="bold"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.752" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

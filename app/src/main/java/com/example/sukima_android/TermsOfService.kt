@@ -15,6 +15,8 @@ class TermsOfService : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.terms_of_service)
 
+        scrollView1.fullScroll(View.FOCUS_DOWN);
+
         val CheckBox: CheckBox = findViewById(R.id.checkbox)
 
         CheckBox.setOnCheckedChangeListener { _, isChecked ->
