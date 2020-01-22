@@ -50,4 +50,5 @@ dependencies {
 
     implementation 'uk.co.markormesher:android-fab:2.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
+
 }

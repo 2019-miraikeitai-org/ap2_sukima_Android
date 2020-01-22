@@ -19,10 +19,10 @@
 
         <Constraint
             android:id="@id/imageButton01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:layout_marginStart="16dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/eat"
             android:visibility="gone"
@@ -33,11 +33,11 @@
 
         <Constraint
             android:id="@id/imageButton02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="2dp"
             android:src="@drawable/mattari"
             android:visibility="gone"
             motion:layout_constraintBottom_toBottomOf="@+id/imageButton"
@@ -48,10 +48,10 @@
 
         <Constraint
             android:id="@id/imageButton03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:layout_marginStart="16dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="48dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/asobu"
             android:visibility="gone"
@@ -62,9 +62,9 @@
 
         <Constraint
             android:id="@id/imageButton04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/burabura"
@@ -106,10 +106,10 @@
 
         <Constraint
             android:id="@id/imageButton01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:layout_marginStart="16dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/eat"
             motion:layout_constraintBottom_toTopOf="@+id/imageButton04"
@@ -117,11 +117,11 @@
 
         <Constraint
             android:id="@id/imageButton02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="2dp"
             android:src="@drawable/mattari"
             motion:layout_constraintBottom_toTopOf="@id/imageButton03"
             motion:layout_constraintStart_toStartOf="@+id/imageButton03" />
@@ -129,10 +129,10 @@
 
         <Constraint
             android:id="@id/imageButton03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            android:layout_marginStart="16dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="48dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/asobu"
             motion:layout_constraintBottom_toTopOf="@id/imageButton01"
@@ -140,9 +140,9 @@
 
         <Constraint
             android:id="@id/imageButton04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/burabura"

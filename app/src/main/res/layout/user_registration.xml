@@ -1,35 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-    <LinearLayout android:orientation="horizontal" android:layout_height="match_parent" android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="horizontal"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent" android:layout_width="match_parent" android:id="@+id/constraitLayout">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraitLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView android:layout_height="32dp" android:layout_width="297dp" android:id="@+id/gender" app:layout_constraintTop_toBottomOf="@+id/age" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.456" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/gender_button" android:textSize="22sp" android:textColor="#E91E63" android:textAllCaps="false" android:text="②性別を入力しよう！" android:layout_marginTop="50dp"/>
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="56dp"
+            android:text="新規登録をしよう！"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView android:layout_height="218dp" android:layout_width="438dp" android:id="@+id/imageView" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.518" app:layout_constraintEnd_toEndOf="parent" app:srcCompat="@drawable/top" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="480dp"/>
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="297dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="72dp"
+            android:text="②性別を入力しよう！"
+            android:textAllCaps="false"
+            android:textColor="#E91E63"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.456"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/age" />
 
-    <TextView android:layout_height="32dp" android:layout_width="297dp" android:id="@+id/age" app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.456" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/imageView4" android:textSize="22sp" android:textColor="#E91E63" android:textAllCaps="false" android:text="①年齢を入力しよう!" app:layout_constraintVertical_bias="0.04"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="438dp"
+            android:layout_height="218dp"
+            android:layout_marginBottom="480dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/top" />
 
-    <ImageView android:layout_height="218dp" android:layout_width="438dp" android:id="@+id/imageView4" app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.481" app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="550dp" app:srcCompat="@drawable/bottom" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.729"/>
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="297dp"
+            android:layout_height="32dp"
+            android:text="①年齢を入力しよう!"
+            android:textAllCaps="false"
+            android:textColor="#E91E63"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.456"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.04" />
 
-    <EditText android:layout_height="45dp" android:layout_width="121dp" android:id="@+id/editText" app:layout_constraintTop_toBottomOf="@+id/age" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/gender" android:layout_marginTop="10dp" android:inputType="number" android:ems="10" android:layout_marginRight="230dp" android:layout_marginEnd="230dp" android:layout_marginLeft="60dp" android:layout_marginStart="60dp"/>
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="438dp"
+            android:layout_height="218dp"
+            android:layout_marginTop="550dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.729"
+            app:srcCompat="@drawable/bottom" />
 
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/textView2" app:layout_constraintTop_toBottomOf="@+id/age" android:textSize="18sp" android:text="※半角のみ" android:layout_marginTop="15dp" android:layout_marginLeft="30dp" android:layout_marginStart="30dp" app:layout_constraintStart_toEndOf="@+id/editText"/>
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="131dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:maxLength="2"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/gender"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/age"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <ImageButton android:layout_height="48dp" android:layout_width="277dp" android:id="@+id/RegistrationButton" app:layout_constraintTop_toBottomOf="@+id/gender" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/imageView4" android:layout_marginTop="60dp" app:srcCompat="@drawable/start" app:layout_constraintVertical_bias="1.0"/>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:text="※半角のみ"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/age" />
 
 
-    <RadioGroup android:orientation="horizontal" android:layout_height="48dp" android:layout_width="411dp" android:id="@+id/gender_button" app:layout_constraintTop_toBottomOf="@+id/gender" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/RegistrationButton" android:layout_marginBottom="10dp" app:layout_constraintVertical_bias="1.0" android:layout_marginRight="30dp" android:layout_marginEnd="30dp">
+        <Button
+            android:id="@+id/RegistrationButton"
+            android:layout_width="208dp"
+            android:layout_height="43dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="148dp"
+            android:background="@drawable/button_layout"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:text="はじめる"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <RadioButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/Man" app:layout_constraintTop_toBottomOf="@+id/gender" app:layout_constraintStart_toStartOf="parent" android:textSize="22sp" android:text="男性" android:layout_marginTop="16dp" android:layout_marginLeft="20dp" android:layout_marginStart="60dp"/>
+        <RadioGroup
+            android:id="@+id/gender_button"
+            android:layout_width="411dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.433"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gender">
 
-    <RadioButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/Women" app:layout_constraintTop_toBottomOf="@+id/gender" android:textSize="22sp" android:text="女性" android:layout_marginTop="16dp" android:layout_marginLeft="20dp" android:layout_marginStart="20dp" app:layout_constraintStart_toEndOf="@+id/Man"/>
+            <RadioButton
+                android:id="@+id/Man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:text="男性"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
 
-    <RadioButton android:layout_height="wrap_content" android:layout_width="136dp" android:id="@+id/Custom" app:layout_constraintTop_toBottomOf="@+id/gender" android:textSize="22sp" android:text="カスタム" android:layout_marginTop="16dp" android:layout_marginLeft="16dp" android:layout_marginStart="16dp" app:layout_constraintStart_toEndOf="@+id/Women"/>
+            <RadioButton
+                android:id="@+id/Women"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:text="女性"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/Man"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
 
-</RadioGroup>
+            <RadioButton
+                android:id="@+id/Custom"
+                android:layout_width="136dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="カスタム"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/Women"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

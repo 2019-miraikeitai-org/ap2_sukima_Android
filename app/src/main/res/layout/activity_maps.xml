@@ -103,16 +103,16 @@
 
         <ImageButton
             android:id="@+id/current_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginRight="14dp"
             android:background="@null"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintHorizontal_bias="1.0"
-            map:layout_constraintStart_toStartOf="parent"
             map:layout_constraintTop_toTopOf="parent"
-            map:layout_constraintVertical_bias="0.082"
-            map:srcCompat="@drawable/genzaichi" />
+            map:layout_constraintVertical_bias="0.225"
+            map:srcCompat="@drawable/currentbtn" />
 
         <ImageView
             android:id="@+id/imageView8"
@@ -124,7 +124,32 @@
             map:layout_constraintStart_toStartOf="parent"
             map:layout_constraintTop_toTopOf="parent"
             map:layout_constraintVertical_bias="0.998"
-            map:srcCompat="@drawable/puramai" />
+            map:srcCompat="@drawable/zoom" />
+
+        <ImageButton
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:srcCompat="@drawable/time" />
+
+
+        <ImageButton
+            android:id="@+id/menue"
+            android:layout_width="70dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@null"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:srcCompat="@drawable/menue" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -136,17 +161,17 @@
             map:layout_constraintHorizontal_bias="0.502"
             map:layout_constraintStart_toStartOf="parent"
             map:layout_constraintTop_toTopOf="parent"
-            map:srcCompat="@drawable/overlay" />
+            map:srcCompat="@drawable/filter" />
 
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="32dp"
+            android:layout_marginBottom="55dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/search"
+            android:src="@drawable/kennsaku"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintStart_toStartOf="parent" />
 
@@ -154,11 +179,11 @@
             android:id="@+id/closeButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="32dp"
+            android:layout_marginBottom="55dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:visibility="invisible"
             android:src="@drawable/batu"
+            android:visibility="invisible"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintStart_toStartOf="parent" />
 
@@ -177,12 +202,11 @@
             android:id="@+id/imageButton02"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/mattari" />
+            android:src="@drawable/mattari"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="637dp" />
 
         <ImageButton
             android:id="@+id/imageButton03"
@@ -199,13 +223,11 @@
             android:id="@+id/imageButton04"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/burabura" />
-
+            android:src="@drawable/burabura"
+            tools:layout_editor_absoluteX="62dp"
+            tools:layout_editor_absoluteY="619dp" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
