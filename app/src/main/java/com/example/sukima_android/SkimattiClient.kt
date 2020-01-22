@@ -1,8 +1,6 @@
 package com.example.sukima_android
 
-import com.example.sukima_android.model.Spots
-import com.example.sukima_android.model.User
-import com.example.sukima_android.model.post_user
+import com.example.sukima_android.model.*
 import retrofit2.http.*
 
 interface SkimattiClient {
@@ -20,4 +18,11 @@ interface SkimattiClient {
      suspend fun postUser(
     @Body postUser: post_user
     ):User
+
+    @Headers("Content-Type: application/json")
+    @POST("/users/{user_id}/visited")
+    suspend fun postVisited(
+        @Path("user_id") user_id:Int,
+        @Body visited: visited_data?
+    ): Visit_res
 }
