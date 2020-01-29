@@ -387,7 +387,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .position(it)
                                         .title("${distance[i] / 80}分"+":${distance[i]} m")
                                         .snippet("${SER_Comment[i]}")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                                 }
                                 )
 
@@ -398,7 +398,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .position(it)
                                         .title("${distance[i] / 80}分" + ":${distance[i]} m")
                                         .snippet("${SER_Comment[i]}")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
 
@@ -410,7 +410,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .title("${distance[i] / 80}分"+":${distance[i]} m")
                                         .snippet("${SER_Comment[i]}")
 
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )
 
@@ -421,7 +421,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                         .position(it)
                                         .title("${distance[i] / 80}分"+ ":${distance[i]} m")
                                         .snippet("${SER_Comment[i]}")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                                 }
                                 )
 
@@ -463,6 +463,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SER_Comment[i] = v.comment
 
                             //スポットIDとセッションIDの格納
                             val spot_id = v.spot_id
@@ -521,6 +522,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SER_Comment[i] = v.comment
 
                             //スポットIDとセッションIDの格納
                             val spot_id = v.spot_id
@@ -573,6 +575,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SER_Comment[i] = v.comment
 
 
                             //スポットIDとセッションIDの格納
@@ -627,6 +630,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SER_Comment[i] = v.comment
+
 
                             //スポットIDとセッションIDの格納
                             val spot_id = v.spot_id
