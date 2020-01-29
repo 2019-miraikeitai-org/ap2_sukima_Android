@@ -38,11 +38,8 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-<<<<<<< HEAD
             android:value="AIzaSyBJY5b6zvM_JTYsFHDp3qaNf1YpWxIkrtk" />
-=======
-            android:value="AIzaSyC1iE7MU8R78okNvy6SKGeqIcTy8pJrOIs" />
->>>>>>> 367794813e30f960258473ac5973dbdee3f62b5e
+
 
         <activity
             android:name=".MainActivity"
