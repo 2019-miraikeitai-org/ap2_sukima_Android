@@ -8,7 +8,17 @@
     android:layout_height="match_parent"
     >
 
-<fragment
+    <include
+        android:id="@+id/include_2"
+        layout="@layout/line_include"
+        android:layout_width="380dp"
+        android:layout_height="653dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="24dp" />
+
+
+
+    <fragment
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
@@ -23,13 +33,6 @@
         map:layoutDescription="@xml/motion_fab"
         tools:context=".MainActivity">
 
-        <include
-            android:id="@+id/include_2"
-            layout="@layout/line_include"
-            android:layout_width="380dp"
-            android:layout_height="653dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="24dp" />
 
 
         <include

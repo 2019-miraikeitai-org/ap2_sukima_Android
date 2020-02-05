@@ -109,7 +109,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     //拡大縮小機能の値
     enum class Zoom(val value: Float) {
         Min(14.0f),
-        Max(19.0f)
+        Max(22.0f)
     }
 
 
@@ -296,6 +296,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
         map.uiSettings.isMapToolbarEnabled = false
 
+        map.setInfoWindowAdapter(ToiletInfoWindowViewer(this@MapsActivity))
+
         //拡大縮小機能
         map = googleMap.apply {
             setMaxZoomPreference(Zoom.Max.value)
@@ -304,10 +306,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
         //スクロール、チルト、回転を無効
         map.uiSettings.run {
-            isScrollGesturesEnabled = false
+            isScrollGesturesEnabled = true
             isTiltGesturesEnabled = false
             isRotateGesturesEnabled = false
-            isZoomGesturesEnabled = false
+            isZoomGesturesEnabled = true
         }
 
         //fused locationの機能(位置情報取得)
@@ -359,11 +361,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         val lat = v.position.latitude
                         val lng = v.position.longitude
 
-                        SER_Comment[i] = v.comment
+                        val new_comment = buildString{
+                            append(v.comment)
+
+                            val a = v.comment.length / 16
+                            for(k in 1..a) {
+                                insert(16*k, "\n")
+                            }
+                        }
+
+                        SER_Comment[i] = new_comment
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
                         POINT_new[i] = point_new[i]
-
 
                         //スポットIDとセッションIDの格納
                         val spot_id = v.spot_id
@@ -385,8 +395,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i] / 80}分"+":${distance[i]} m")
-                                        .snippet("${SER_Comment[i]}")
+                                        .title("${SER_Comment[i]}")
+                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                                 }
                                 )
@@ -396,8 +406,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i] / 80}分" + ":${distance[i]} m")
-                                        .snippet("${SER_Comment[i]}")
+                                        .title("${SER_Comment[i]}")
+                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
@@ -407,9 +417,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i] / 80}分"+":${distance[i]} m")
-                                        .snippet("${SER_Comment[i]}")
-
+                                        .title("${SER_Comment[i]}")
+                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )
@@ -419,8 +428,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 map.addMarker(point?.let {
                                     MarkerOptions()
                                         .position(it)
-                                        .title("${distance[i] / 80}分"+ ":${distance[i]} m")
-                                        .snippet("${SER_Comment[i]}")
+                                        .title("${SER_Comment[i]}")
+                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                                 }
                                 )
@@ -463,7 +472,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
-                            SER_Comment[i] = v.comment
+
+
+                            val new_comment = buildString{
+                                append(v.comment)
+
+                                val a = v.comment.length / 16
+                                for(k in 1..a) {
+                                    insert(16*k, "\n")
+                                }
+                            }
+
+
+                            SER_Comment[i] = new_comment
 
                             //スポットIDとセッションIDの格納
                             val spot_id = v.spot_id
@@ -478,12 +499,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                     Log.d("test", point_new[i].toString())
                     //現在位置とスポットまでの距離計算
                     distance.add(computeDistanceBetween(LatLngA, point).toInt())
+
+
                     val marker: Marker =
                         map.addMarker(point?.let {
                             MarkerOptions()
                                 .position(it)
-                                .title("${distance[i]} m"+":${distance[i] / 80}分")
-                                .snippet("${SER_Comment[i]}")
+                                .title("${SER_Comment[i]}")
+                                .snippet("${distance[i] / 60 + 5}分　${distance[i]} m")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                         }
                         )
@@ -503,10 +526,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                 map.clear()
 
-                //HitAPITask().execute(
-                //    "GET",
-                //    "http://160.16.103.99/spots" + "?" + PRA_genre + "&" + PRA_skima_time + "&latitude=" + PRA_Curlatitude + "&longitude=" + PRA_Curlongitude
-                //)
 
                 launch {
                     try {
@@ -522,7 +541,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
-                            SER_Comment[i] = v.comment
+                            val new_comment = buildString{
+                                append(v.comment)
+
+                                val a = v.comment.length / 16
+                                for(k in 1..a) {
+                                    insert(16*k, "\n")
+                                }
+                            }
+
+                            SER_Comment[i] = new_comment
 
                             //スポットIDとセッションIDの格納
                             val spot_id = v.spot_id
@@ -541,8 +569,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             map.addMarker(point?.let {
                                 MarkerOptions()
                                     .position(it)
-                                    .title("${distance[i]} m"+":${distance[i] / 80}分")
-                                    .snippet("${SER_Comment[i]}")
+                                    .title("${SER_Comment[i]}")
+                                    .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                             }
                             )
@@ -575,7 +603,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
-                            SER_Comment[i] = v.comment
+                            val new_comment = buildString{
+                                append(v.comment)
+
+                                val a = v.comment.length / 16
+                                for(k in 1..a) {
+                                    insert(16*k, "\n")
+                                }
+                            }
+
+                            SER_Comment[i] = new_comment
 
 
                             //スポットIDとセッションIDの格納
@@ -597,8 +634,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         map.addMarker(point?.let {
                             MarkerOptions()
                                 .position(it)
-                                .title("${distance[i]} m"+":${distance[i] / 80}分")
-                                .snippet("${SER_Comment[i]}")
+                                .title("${SER_Comment[i]}")
+                                .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
@@ -630,7 +667,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
-                            SER_Comment[i] = v.comment
+                            val new_comment = buildString{
+                                append(v.comment)
+
+                                val a = v.comment.length / 16
+                                for(k in 1..a) {
+                                    insert(16*k, "\n")
+                                }
+                            }
+
+                            SER_Comment[i] = new_comment
 
 
                             //スポットIDとセッションIDの格納
@@ -651,8 +697,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         map.addMarker(point?.let {
                             MarkerOptions()
                                 .position(it)
-                                .title("${distance[i]} m"+":${distance[i] / 80}分")
-                                .snippet("${SER_Comment[i]}")
+                                .title("${SER_Comment[i]}")
+                                .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                         }
                         )
@@ -712,6 +758,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         super.onDestroy()
         job.cancel()
     }
+
+
 
 
 }
