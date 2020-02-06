@@ -8,13 +8,12 @@
     android:layout_height="match_parent"
     >
 
-<fragment
+    <fragment
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MapsActivity" />
-
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:id="@+id/motion_layout"
@@ -51,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="855dp"
             android:background="@null"
-            android:contentDescription="TODO"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent"
             map:layout_constraintHorizontal_bias="0.0"
@@ -79,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/sukima_time"
+            android:text="h"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent"
             map:layout_constraintHorizontal_bias="0.498"
@@ -150,6 +148,31 @@
             map:layout_constraintEnd_toEndOf="parent"
             map:layout_constraintTop_toTopOf="parent"
             map:srcCompat="@drawable/menue" />
+
+        <Button
+            android:id="@+id/fin"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="96dp"
+            android:layout_marginTop="136dp"
+            android:background="@drawable/button_layout"
+            android:onClick="fin"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:scaleType="center"
+            android:text="ついた！"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            map:layout_constraintEnd_toStartOf="@+id/current_btn"
+            map:layout_constraintHorizontal_bias="0.5"
+            map:layout_constraintStart_toEndOf="@+id/include_1"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView4"
