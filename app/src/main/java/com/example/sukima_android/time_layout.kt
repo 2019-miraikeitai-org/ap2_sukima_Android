@@ -1,20 +1,19 @@
 package com.example.sukima_android
 
-import android.content.ClipData
-import android.os.Bundle
 import android.content.Intent
+import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Spinner
 import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_time_layout.*
 
 
 class time_layout : AppCompatActivity() {
 
-    private val spinnerItems = arrayOf("30","40","50","60","70","80","90","100","110", "120")
+    private val spinnerItems = arrayOf("30","40","50","60","70","80","90")
 
 
 

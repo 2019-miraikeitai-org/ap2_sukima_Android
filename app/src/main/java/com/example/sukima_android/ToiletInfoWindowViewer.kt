@@ -15,6 +15,7 @@ class ToiletInfoWindowViewer(newActivity: Activity) : InfoWindowAdapter {
             marker.title
         (infoWindowView.findViewById<View>(R.id.marker_infowindow_snippet) as TextView).text =
             marker.snippet
+
         return infoWindowView
     }
 

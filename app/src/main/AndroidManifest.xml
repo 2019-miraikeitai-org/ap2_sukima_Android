@@ -38,7 +38,8 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC1iE7MU8R78okNvy6SKGeqIcTy8pJrOIs" />
+            android:value="AIzaSyBJY5b6zvM_JTYsFHDp3qaNf1YpWxIkrtk" />
+
 
         <activity
             android:name=".MainActivity"
@@ -63,6 +64,35 @@
         <activity
             android:name=".time_layout"
             android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".MenueList"
+            android:label="すきまっちについて"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Terms"
+            android:label="利用規約"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Privacy"
+            android:label="プライバシーポリシー"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Description"
+            android:label="すきまっちとは"
+            android:theme="@style/AppTheme2"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Help"
+            android:label="ヘルプ"
+            android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"></activity>
 
         <activity

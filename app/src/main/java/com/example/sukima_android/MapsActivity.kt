@@ -34,11 +34,13 @@ import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.dialog.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
+import org.w3c.dom.Text
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import kotlin.coroutines.CoroutineContext
@@ -75,6 +77,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     private val POINT_new = arrayOfNulls<LatLng>(4)
     //visited型の配列
     private val VisitData = arrayOfNulls<visited_data>(4)
+
+    private var SpotName = arrayOfNulls<String>(4)
 
     //ジャンルを格納しているString型の配列 Ganre
     private val Genre = arrayListOf<String>("debug", "eat", "relax", "play", "stroll")
@@ -120,10 +124,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
         //fused location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        time.setOnClickListener {
+            val intent = Intent(this, time_layout::class.java)
+            startActivity(intent)
+        }
+
+        menue.setOnClickListener {
+            val intent = Intent(this, MenueList::class.java)
+            startActivity(intent)
+        }
 
 
         //画面遷移の時に、time_layoutから受け取る引数
@@ -138,20 +153,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
                 lastLocation = p0.lastLocation
                 currentLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
-                 //Log.d("checkin",lastLocation.latitude.toString())
+                //Log.d("checkin",lastLocation.latitude.toString())
+
        Distance.forEachIndexed {i,Dist ->
             if (POINT_new[i] != null) {
              Distance[i] = computeDistanceBetween(
              POINT_new[i],
              LatLng(lastLocation.latitude, lastLocation.longitude)
              ).toInt()//自分の現在位置とスポットとの距離*/
-             if(Distance[i] != 0 && Distance[i] < 10) {
+             if(Distance[i] != 0 && Distance[i] < 200) {
                  if(VFlag == false) {
 
-                     Log.d("checkin", "checkinOK")
+                    // val textView1: TextView = findViewById(R.id.spotName)
+                    // textView1.text = SpotName[i]
+
+                     Log.d("spotaaaaa",SpotName[i] )
+
+
+                     //spotName.text= "aaa"
+
+
                      AlertDialog.Builder(this@MapsActivity)
                          .setView(layoutInflater.inflate(R.layout.dialog, null))
+                         //.setMessage("llllllllll")
                          .show()
+
 
                      PointNum = i
                      VFlag = true
@@ -164,6 +190,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
              }
             }
         }
+
+
+
         createLocationRequest()
 
     }
@@ -374,6 +403,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                         SER_Genre[i] = v.genre
                         point_new[i] = LatLng(lat, lng)
                         POINT_new[i] = point_new[i]
+                        SpotName[i]= v.name
 
                         //スポットIDとセッションIDの格納
                         val spot_id = v.spot_id
@@ -396,7 +426,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     MarkerOptions()
                                         .position(it)
                                         .title("${SER_Comment[i]}")
-                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                        .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
                                 }
                                 )
@@ -407,7 +437,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     MarkerOptions()
                                         .position(it)
                                         .title("${SER_Comment[i]}")
-                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                        .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                                 }
                                 )
@@ -418,7 +448,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     MarkerOptions()
                                         .position(it)
                                         .title("${SER_Comment[i]}")
-                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                        .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                                 }
                                 )
@@ -429,7 +459,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                     MarkerOptions()
                                         .position(it)
                                         .title("${SER_Comment[i]}")
-                                        .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                        .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                                 }
                                 )
@@ -472,7 +502,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
-
+                            SpotName[i]= v.name
 
                             val new_comment = buildString{
                                 append(v.comment)
@@ -506,10 +536,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             MarkerOptions()
                                 .position(it)
                                 .title("${SER_Comment[i]}")
-                                .snippet("${distance[i] / 60 + 5}分　${distance[i]} m")
+                                .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot3))
+
                         }
                         )
+
 
                 }
                     } catch (e: Throwable) {
@@ -541,6 +573,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SpotName[i]= v.name
                             val new_comment = buildString{
                                 append(v.comment)
 
@@ -570,7 +603,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                                 MarkerOptions()
                                     .position(it)
                                     .title("${SER_Comment[i]}")
-                                    .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                    .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot1))
                             }
                             )
@@ -603,6 +636,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SpotName[i]= v.name
                             val new_comment = buildString{
                                 append(v.comment)
 
@@ -635,7 +669,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             MarkerOptions()
                                 .position(it)
                                 .title("${SER_Comment[i]}")
-                                .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot4))
                         }
                         )
@@ -667,6 +701,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             SER_Genre[i] = v.genre
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
+                            SpotName[i]= v.name
                             val new_comment = buildString{
                                 append(v.comment)
 
@@ -698,7 +733,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             MarkerOptions()
                                 .position(it)
                                 .title("${SER_Comment[i]}")
-                                .snippet("${distance[i] / 60 + 5}分"+":${distance[i]} m")
+                                .snippet("${distance[i] / 60 + 5}分  ${distance[i]} m")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.spot2))
                         }
                         )
@@ -750,8 +785,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
 
     fun mata(view: View)
     {
+
+        imageButton.visibility = View.INVISIBLE
+        time.visibility = View.INVISIBLE
+        menue.visibility = View.INVISIBLE
+        fin.visibility = View.VISIBLE
+
+        //sukimaTime.text = SpotName[i]
+
+
+    }
+
+    fun fin(view: View){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+
+        val data = getSharedPreferences("Data", Context.MODE_PRIVATE)
+        var dataInt = data.getInt("DataInt",0)
+        var user_id = dataInt
+
+        launch {
+            try {
+                Log.d("tryX",VisitData[PointNum].toString())
+                val resp =
+                    client.postVisited(user_id, VisitData[PointNum])
+
+                Log.d("tryX",resp.toString())
+
+            } catch (e: Throwable) {
+                Log.e("e", e.toString())
+            }
+        }
+
+        VFlag = false
+
+
     }
 
     override fun onDestroy() {
