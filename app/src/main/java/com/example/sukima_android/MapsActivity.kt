@@ -26,10 +26,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -50,6 +47,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     CoroutineScope {
 
     override fun onMarkerClick(p0: Marker?) = false
+
+
 
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
@@ -779,17 +778,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             }
         }
 
-        VFlag = false
-
     }
+
+
 
     fun mata(view: View)
     {
 
-        imageButton.visibility = View.INVISIBLE
-        time.visibility = View.INVISIBLE
-        menue.visibility = View.INVISIBLE
-        fin.visibility = View.VISIBLE
+        val points = ArrayList<LatLng>()
+        val lineOptions = PolylineOptions()
+        val now = LatLng(lastLocation.latitude, lastLocation.longitude)
+        points.add(now)
+        val position = POINT_new[PointNum]
+        if (position != null) {
+            points.add(position)
+        }
+
+        lineOptions.addAll(points)
+        lineOptions.width(10f)
+        lineOptions.color(0x550000ff)
+
+        map.addPolyline(lineOptions)
+
+        VFlag = false
 
         //sukimaTime.text = SpotName[i]
 
