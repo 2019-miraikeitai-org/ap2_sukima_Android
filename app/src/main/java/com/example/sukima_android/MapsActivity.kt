@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
@@ -26,10 +27,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.google.maps.android.PolyUtil
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -43,6 +42,7 @@ import okhttp3.OkHttpClient
 import org.w3c.dom.Text
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 
@@ -106,6 +106,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         .build()
 
     private val client by lazy { retrofit.create(SkimattiClient::class.java) }
+
+    private val retrofitR by lazy {
+        val okhttpR = OkHttpClient()
+            .newBuilder()
+            .addNetworkInterceptor(StethoInterceptor())
+            .build()
+        val moshiR = Moshi
+            .Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+        Retrofit.Builder()
+            .client(okhttpR)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .baseUrl("https://maps.googleapis.com")
+            .build()
+    }
+
+    private val clientR by lazy { retrofit.create(RouteClient::class.java) }
+
+
 
     private val job = Job()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + job
@@ -791,6 +811,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         menue.visibility = View.INVISIBLE
         fin.visibility = View.VISIBLE
 
+        val from = LatLng(lastLocation.latitude, lastLocation.longitude)
+        val to = POINT_new[PointNum]
+
+
+            val fromString = "${from.latitude},${from.longitude}"
+            val toString = "${to?.latitude},${to?.longitude}"
+
+            renderRoute(fromString, toString)
+
         //sukimaTime.text = SpotName[i]
 
 
@@ -825,6 +854,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
+    }
+
+
+    private fun renderRoute(from: String, to: String) {
+        launch {
+            try {
+
+                val resp = clientR.getRoute(from, to, getString(R.string.google_maps_key))
+                val steps = resp.routes?.firstOrNull()?.legs?.firstOrNull()?.steps
+                steps?.map { step ->
+                    val points = step?.polyline?.points
+                    PolyUtil.decode(points)
+                }?.forEach {
+                    // 線を描画
+                    map.addPolyline(PolylineOptions().addAll(it).color(Color.RED))
+                }
+            } catch (e: Exception) {
+                Log.e("MapsActivity", e.toString())
+            }
+        }
     }
 
 
