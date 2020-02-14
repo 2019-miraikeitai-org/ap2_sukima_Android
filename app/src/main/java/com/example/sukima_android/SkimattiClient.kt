@@ -26,3 +26,12 @@ interface SkimattiClient {
         @Body visited: visited_data?
     ): Visit_res
 }
+
+interface RouteClient {
+    @GET("/maps/api/directions/json")
+    suspend fun getRoute(
+        @Query("origin") origin: String,
+        @Query("destination") destination: String,
+        @Query("key") key: String
+    ): Route
+}
