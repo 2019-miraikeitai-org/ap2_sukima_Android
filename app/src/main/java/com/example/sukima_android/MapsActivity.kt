@@ -118,12 +118,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             .build()
         Retrofit.Builder()
             .client(okhttpR)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(moshiR))
             .baseUrl("https://maps.googleapis.com")
             .build()
     }
 
-    private val clientR by lazy { retrofit.create(RouteClient::class.java) }
+    private val clientR by lazy { retrofitR.create(RouteClient::class.java) }
 
 
 
@@ -818,6 +818,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val fromString = "${from.latitude},${from.longitude}"
             val toString = "${to?.latitude},${to?.longitude}"
 
+        Log.d("tryR",fromString)
+        Log.d("tryR",toString)
+
             renderRoute(fromString, toString)
 
         //sukimaTime.text = SpotName[i]
@@ -861,7 +864,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         launch {
             try {
 
-                val resp = clientR.getRoute(from, to, getString(R.string.google_maps_key))
+                val resp = clientR.getRoute(from, to, "walking", getString(R.string.google_maps_key))
                 val steps = resp.routes?.firstOrNull()?.legs?.firstOrNull()?.steps
                 steps?.map { step ->
                     val points = step?.polyline?.points

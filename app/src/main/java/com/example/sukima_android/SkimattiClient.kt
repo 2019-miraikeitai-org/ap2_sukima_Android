@@ -32,6 +32,7 @@ interface RouteClient {
     suspend fun getRoute(
         @Query("origin") origin: String,
         @Query("destination") destination: String,
+        @Query("mode")mode: String,
         @Query("key") key: String
     ): Route
 }
