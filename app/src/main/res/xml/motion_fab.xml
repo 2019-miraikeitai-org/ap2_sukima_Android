@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools">
+
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@+id/start"
+        motion:duration="200"
+        motion:motionInterpolator="linear">
+        <OnClick
+            motion:clickAction="toggle"
+            motion:targetId="@+id/imageButton" />
+    </Transition>
+
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@id/imageButton01"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/eat"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            motion:layout_constraintEnd_toEndOf="@+id/imageButton"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton"
+            motion:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+        <Constraint
+            android:id="@id/imageButton02"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/mattari"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            motion:layout_constraintEnd_toEndOf="@+id/imageButton"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton"
+            motion:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+
+        <Constraint
+            android:id="@id/imageButton03"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/asobu"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            motion:layout_constraintEnd_toEndOf="@+id/imageButton"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton"
+            motion:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+        <Constraint
+            android:id="@id/imageButton04"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/burabura"
+            android:visibility="gone"
+            motion:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            motion:layout_constraintEnd_toEndOf="@+id/imageButton"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton"
+            motion:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@+id/imageView4"
+            android:layout_width="620dp"
+            android:layout_height="913dp"
+            android:visibility="visible"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintHorizontal_bias="0.502"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:srcCompat="@drawable/overlay"
+            />
+
+        <Constraint
+            android:id="@+id/closeButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="32dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            android:src="@drawable/batu"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@id/imageButton01"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/eat"
+            motion:layout_constraintBottom_toTopOf="@+id/imageButton04"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton04" />
+
+        <Constraint
+            android:id="@id/imageButton02"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/mattari"
+            motion:layout_constraintBottom_toTopOf="@id/imageButton03"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton03" />
+
+
+        <Constraint
+            android:id="@id/imageButton03"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/asobu"
+            motion:layout_constraintBottom_toTopOf="@id/imageButton01"
+            motion:layout_constraintStart_toStartOf="@+id/imageButton01" />
+
+        <Constraint
+            android:id="@id/imageButton04"
+            android:scaleType="fitXY"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/burabura"
+            motion:layout_constraintBottom_toTopOf="@+id/imageButton"
+            motion:layout_constraintStart_toStartOf="@id/imageButton" />
+
+    </ConstraintSet>
+
+</MotionScene>
