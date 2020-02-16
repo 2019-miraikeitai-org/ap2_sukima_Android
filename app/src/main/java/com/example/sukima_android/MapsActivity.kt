@@ -181,7 +181,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
              POINT_new[i],
              LatLng(lastLocation.latitude, lastLocation.longitude)
              ).toInt()//自分の現在位置とスポットとの距離*/
-             if(Distance[i] != 0 && Distance[i] < 200) {
+             if(Distance[i] != 0 && Distance[i] < 20) {
                  if(VFlag == false) {
 
                     // val textView1: TextView = findViewById(R.id.spotName)
@@ -523,6 +523,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             point_new[i] = LatLng(lat, lng)
                             POINT_new[i] = point_new[i]
                             SpotName[i]= v.name
+
+                            //  POINT_new[0] = LatLng(41.8268, 140.7518)
+                            //  SpotName[0] ="らーめん炙"
+                            //  SER_Comment[0]= "こだわりの叉焼がたべられらます"
 
                             val new_comment = buildString{
                                 append(v.comment)
