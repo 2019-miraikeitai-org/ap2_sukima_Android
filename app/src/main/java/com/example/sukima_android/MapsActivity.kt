@@ -118,12 +118,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             .build()
         Retrofit.Builder()
             .client(okhttpR)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(moshiR))
             .baseUrl("https://maps.googleapis.com")
             .build()
     }
 
-    private val clientR by lazy { retrofit.create(RouteClient::class.java) }
+    private val clientR by lazy { retrofitR.create(RouteClient::class.java) }
 
 
 
@@ -181,7 +181,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
              POINT_new[i],
              LatLng(lastLocation.latitude, lastLocation.longitude)
              ).toInt()//自分の現在位置とスポットとの距離*/
-             if(Distance[i] != 0 && Distance[i] < 200) {
+             if(Distance[i] != 0 && Distance[i] < 20) {
                  if(VFlag == false) {
 
                     // val textView1: TextView = findViewById(R.id.spotName)
@@ -524,6 +524,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
                             POINT_new[i] = point_new[i]
                             SpotName[i]= v.name
 
+                            //  POINT_new[0] = LatLng(41.8268, 140.7518)
+                            //  SpotName[0] ="らーめん炙"
+                            //  SER_Comment[0]= "こだわりの叉焼がたべられらます"
+
                             val new_comment = buildString{
                                 append(v.comment)
 
@@ -818,6 +822,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
             val fromString = "${from.latitude},${from.longitude}"
             val toString = "${to?.latitude},${to?.longitude}"
 
+        Log.d("tryR",fromString)
+        Log.d("tryR",toString)
+
             renderRoute(fromString, toString)
 
         //sukimaTime.text = SpotName[i]
@@ -861,7 +868,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
         launch {
             try {
 
-                val resp = clientR.getRoute(from, to, getString(R.string.google_maps_key))
+                val resp = clientR.getRoute(from, to, "walking", getString(R.string.google_maps_key))
                 val steps = resp.routes?.firstOrNull()?.legs?.firstOrNull()?.steps
                 steps?.map { step ->
                     val points = step?.polyline?.points
